@@ -1,13 +1,13 @@
 
 
-var browse = document.getElementsByClassName('chooseFiles')[0]; 
-var selectDialog = document.createElement("INPUT"); 
+let browse = document.getElementsByClassName('chooseFiles')[0]; 
+let selectDialog = document.createElement("INPUT"); 
 selectDialog.setAttribute("type", "file"); 
 selectDialog.setAttribute("multiple", "true"); 
 selectDialog.style.display = "none"; 
-var progressUpload = document.getElementsByClassName("progressUpload")[0]; 
-var progress; 
-addProgressBar(); 
+let progressUpload = document.getElementsByClassName("progressUpload")[0]; 
+let progress  =  document.getElementById("progress"); 
+//addProgressBar(); 
 browse.addEventListener("click", function(){	 
 	selectDialog.click(); 
 	
@@ -41,12 +41,3 @@ function updateProgress(e){
 function resetProgressBar(){ 
 	progress.style.width = "0%"; 
 } 
-function addProgressBar(){ 
-	var progressBar = document.createElement("div"); 
-	progressBar.className = "progressBar"; 
-	progressUpload.appendChild(progressBar); 
-	var innerDIV = document.createElement("div"); 
-	innerDIV.className = "progress"; 
-	progressBar.appendChild(innerDIV); 
-	progress = document.getElementsByClassName("progress")[0]; 
-}
