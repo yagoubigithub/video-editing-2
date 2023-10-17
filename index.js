@@ -30,6 +30,16 @@ const port = process.env.PORT || 3000;
 app.use(express.static("front-end"));
 
 
+mongoose.connect(process.env.MONGO_URL,{
+
+  useNewUrlParser : true
+}).then(()=>{
+  console.log("database connected")
+}).catch(Err=>{
+  console.log(Err)
+})
+
+
 //routes
 const videoRoutes = require("./back-end/routes/videos")
 
