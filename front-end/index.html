@@ -20,12 +20,33 @@
        <div class="container">
           
                <div class="side-bar">
-                   <div class="side-bar-menu">
-                    <input type="button" class="chooseFiles" value="Select..." /> 
-                    <div class="progressUpload"></div> 
+                   <ul class="side-bar-menu">
+                   
+                    <li>
+                        <input type="button" class="chooseFiles" value="Select..." /> 
+                       
+                    </li>
+
+                    <li id="btn-open-videos">
+                        <div>Videos</div>
+                    </li>
+
+                    <div id="videos-model" class="modal">
+
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                          <span class="close" id="close-videos-modal">&times;</span>
+                          <p>Some text in the Modal..</p>
+                        </div>
+                      
+                      </div>
+
+                    <li>
+                        <div>Temlates</div>
+                    </li>
                      
    
-                   </div>
+                   </ul>
    
                    <div class="play-btn-container">
                        <button id="play-btn">
@@ -120,5 +141,6 @@
    
     <script src="js/config.js"></script> 
     <script src="js/uploader.js"></script> 
+    <script src="./js/modal.js"></script>
 </body>
 </html>
