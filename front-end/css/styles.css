@@ -328,6 +328,7 @@ height: 100%;
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    z-index: 1000;
   }
   
   /* Modal Content/Box */
@@ -352,4 +353,24 @@ height: 100%;
     color: black;
     text-decoration: none;
     cursor: pointer;
+  }
+#video-list{
+
+    display: flex;
+}
+  .video-item {
+
+    margin: 10px;
+    padding: 5px;
+
+  }
+  .video-item:hover {
+
+    background-color: #04AA6D;
+  }
+  .video-item-active {
+    margin: 10px;
+    padding: 5px;
+
+    background-color: #3498db;
   }

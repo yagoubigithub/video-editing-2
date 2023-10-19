@@ -26,8 +26,25 @@ let fontFamily = "Arial";
 let color = "#ffffff";
 let backgroundColor = "#ffffff00";
 
+function init() {
+   fired = 0,
+  from = 0,
+  to = 3;
+
+//font text
+ font_size = 35;
+ fontFamily = "Arial";
+ color = "#ffffff";
+ backgroundColor = "#ffffff00";
+
+}
+
 async function showFrame() {
   if (!localStorage.getItem("file")) return;
+  if(document.getElementById("video")){
+    document.removeChild(document.getElementById("video"))
+  }
+  init()
   const file = JSON.parse(localStorage.getItem("file"));
 
   let videoUrl = `${baseUrl}/api/videos/uploads/${file.filename}/${
@@ -38,6 +55,7 @@ async function showFrame() {
   video = document.createElement("video");
   video.src = videoObjectUrl;
 
+  video.id="video"
   canvas = document.createElement("canvas");
   context = canvas.getContext("2d");
 
@@ -81,6 +99,7 @@ async function showFrame() {
      myRange.value = video.currentTime 
     });
    })
+   console.log("show")
 }
 
 async function videoCanPlay() {
