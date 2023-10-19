@@ -28,7 +28,7 @@ app.use(express.urlencoded({limit: '50mb'}));
 const port = process.env.PORT || 3000;
 //app.use(morgan());
 app.use(express.static("front-end"));
-
+app.use(express.static("back-end/uploads"));
 
 mongoose.connect(process.env.MONGO_URL,{
 

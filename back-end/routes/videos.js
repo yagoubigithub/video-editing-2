@@ -1,5 +1,5 @@
 const express = require("express");
-const { upload } = require("../controllers/video");
+const { upload, getAllVideos , getVideo } = require("../controllers/video");
 const router = express.Router();
 
 
@@ -7,8 +7,11 @@ const router = express.Router();
 
 
 router.post("/upload" ,  upload);
- 
-   
+router.get("/uploads/:filename/:type" ,  getVideo);
+router.get("/" , (req, res)=>  getAllVideos().then(videos=>{
+
+    return res.json({videos})
+}));
   
  
 

@@ -1,4 +1,4 @@
-function myModel(modalId, btnId, closeId) {
+function myModel(modalId, btnId, closeId , callback) {
   const model = document.getElementById(modalId);
 
   // Get the button that opens the modal
@@ -10,6 +10,7 @@ function myModel(modalId, btnId, closeId) {
   // When the user clicks on the button, open the modal
   btn.onclick = function () {
     model.style.display = "block";
+    callback()
   };
 
   // When the user clicks on <span> (x), close the modal
@@ -26,4 +27,4 @@ function myModel(modalId, btnId, closeId) {
 }
 
 
-myModel("videos-model" , "btn-open-videos" , "close-videos-modal")
+myModel("videos-model" , "btn-open-videos" , "close-videos-modal", showVideosList)
