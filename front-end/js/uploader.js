@@ -31,6 +31,14 @@ function sendFiles(files){
 		form.append("file" + file, files[file], files[file].name); 
 		
 	} 
+
+	req.onreadystatechange = function() {
+		if (req.readyState == XMLHttpRequest.DONE) {
+			const file  = JSON.parse(req.responseText).vid;
+			localStorage.setItem("file" , JSON.stringify(file))
+			showFrame()
+		}
+	}
 	req.send(form); 
 } 
 function updateProgress(e){ 

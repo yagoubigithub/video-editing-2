@@ -33,17 +33,18 @@ exports.upload = (req, res) => {
             filename : newName,
             type : file.mimetype
           }
-          addVideo(data).catch(err=>{
+          addVideo(data).then(vid=>{
+            count--;
+            if (count <= 0) {
+              return res.json({ vid });
+             
+             
+            }
+           
+          }).catch(err=>{
             console.log(err)
           })
-          count--;
-          if (count <= 0) {
-
-            getAllVideos().then(videos=>{
-              return res.json({ videos });
-            })
-           
-          }
+         
         });
       });
     });
@@ -67,7 +68,7 @@ exports.getVideo = (req, res)=>{
 
 
   const videoPath = path.join(__dirname, ".." , "uploads", req.params.filename); // Path to your video file
- console.log(videoPath)
+ 
   const stat = fs.statSync(videoPath);
   const fileSize = stat.size;
   const range = req.headers.range;
