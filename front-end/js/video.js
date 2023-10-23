@@ -6,7 +6,7 @@ const download_btn = document.getElementById("download_btn");
 const theCanvas = document.createElement("canvas");
 const theContext = theCanvas.getContext("2d");
 
-const text_div = document.getElementById("text");
+
 const myRange = document.getElementById("myRange")
 const play_btn =  document.getElementById("play-btn")
 
@@ -99,6 +99,9 @@ async function showFrame() {
      myRange.value = video.currentTime 
     });
    })
+
+   canvas.addEventListener('click', (event) => clickCanvas(canvas, context, event.offsetX, event.offsetY))
+
    console.log("show")
 }
 
@@ -145,7 +148,7 @@ async function videoCanPlay() {
     videoContainer.style.width = w + "px";
     videoContainer.style.height = h + "px";
 
-    print();
+    showText() 
   }
 }
 

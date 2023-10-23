@@ -1,157 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Video Edit</title>
 
-    <link rel="stylesheet" href="./css/styles.css">
-</head>
-<body>
-    
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
 
+  <body>
     <div id="progress"></div>
 
+    <div id="splash-screen">
+      <div class="loader"></div>
+    </div>
+    <div class="container">
+      <div class="side-bar">
+        <ul class="side-bar-menu">
+          <li id="new-text-btn">New Text</li>
+          <label for="chooseFiles">
+            <li>Browse Videos</li>
+          </label>
 
-   <div id="splash-screen">
-   
-       <div class="loader"></div>
-    </div> 
-       <div class="container">
-          
-               <div class="side-bar">
-                   <ul class="side-bar-menu">
-                   
-                    <li>
-                        <input type="button" class="chooseFiles" value="Select..." /> 
-                       
-                    </li>
+          <input
+            type="button"
+            hidden="true"
+            id="chooseFiles"
+            class="chooseFiles"
+            value="Select..."
+          />
 
-                    <li id="btn-open-videos">
-                        <div>Videos</div>
-                    </li>
+          <li id="btn-open-videos">
+            <div>Videos</div>
+          </li>
 
-                    <div id="videos-model" class="modal">
+          <div id="videos-model" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close" id="close-videos-modal">&times;</span>
+              <div id="video-list"></div>
+            </div>
+          </div>
 
-                        <!-- Modal content -->
-                        <div class="modal-content">
-                          <span class="close" id="close-videos-modal">&times;</span>
-                          <div id="video-list">
+          <li>
+            <div>Temlates</div>
+          </li>
+        </ul>
 
-                          </div>
-                        </div>
-                      
-                      </div>
+        <div class="play-btn-container">
+          <button id="play-btn">
+            <img src="./img/play-2.png" alt="" />
+          </button>
+        </div>
+      </div>
+      <div class="content">
+        <div class="top-bar">
+          <button id="download_btn">download</button>
+        </div>
 
-                    <li>
-                        <div>Temlates</div>
-                    </li>
-                     
-   
-                   </ul>
-   
-                   <div class="play-btn-container">
-                       <button id="play-btn">
-                           <img src="./img/play-2.png"  alt="">
-                       </button>
-                   </div>
-               </div>
-               <div class="content">
-                   <div class="top-bar">
-                       <button id="download_btn">download</button>
-                   </div>
-   
-                   <div class="content-container">
-                       <div class="video-container">
-   
-                          <div>
-                           <div id="video-container">
-                              <div id="drag-container">
-                               <div id="text" contenteditable="true">
-                                   come and enjoy
-                   
-                               </div>
-                              </div>
-                   
-                           </div>
-                           <input type="range" min="0" step="0.1" id="myRange">
-                           <div id="timing">
-                               <div id="timing-left"  class="left"></div>
-                               <div id="time"></div>
-                               <div id="timing-right" class="right">
-   
-                               </div>
-   
-                           </div>
-                          </div>
-   
-                          <div class="tool-bar">
-   
-   
-                          <div class="sizing">
-                           <button id="remove-btn">
-                               <img src="./img/remove.png" alt="remove.png">
-                           </button>
-                           <input type="number" min="11" value="35"  id="font-size-input">
-   
-                           <button id="add-btn">
-                               <img src="./img/add.png" alt="add">
-                           </button>
-                          
-                          </div>
-   
-                          <ul id="font-list">
-   
-                          </ul>
-   
-   
-                          <div class="color-container">
-                           <label for="color-input">
-                               <img src="./img/text-color.png" alt="">
-                           </label>
-                          
-                           <input   data-jscolor="{value:'rgba(255,255,255,1)', previewElement:'#pr1'}" id="color-input" />
-                          
-                         </div>
-   
-                         <div class="color-container">
-                           <label  for="background-color-input" >
-                               
-                               <img src="./img/fill-color.png" alt="">
-                             
-                               <input id="background-color-input"  data-jscolor="{value:'rgba(255,255,255,0)', previewElement:'#pr1'}">
-                           </label>
-                           
-                           
-                          
-                         </div>
-   
-                          </div>
-                       </div>
-                      
-                      
-                   </div>
-                 
-               </div>
-         
-   
-       </div>
-   
-        
-       <div id="trash"></div>
-     
-   
-    <script src="js/config.js"></script> 
-    <script src="js/uploader.js"></script> 
+        <div class="content-container">
+          <div class="video-container">
+            <div>
+              <div id="video-container">
+                <div id="drag-container">
+                  <div
+                    style="
+                      padding: 10px;
+                      font-size: 35px;
+                      color: white;
+                      display: inline-block;
+                      word-break: keep-all;
+                      white-space: nowrap;
+
+                      text-align: center;
+
+                      box-sizing: border-box;
+                      width: fit-content;
+                      z-index: 999;
+                      outline: none;
+                      cursor: text;
+                    "
+                    contenteditable="true"
+                    class="selected-text-div"
+                  >
+                    come and enjoy
+                  </div>
+                </div>
+              </div>
+              <input type="range" min="0" step="0.1" id="myRange" />
+              <div id="timing">
+                <div id="timing-left" class="left"></div>
+                <div id="time"></div>
+                <div id="timing-right" class="right"></div>
+              </div>
+            </div>
+
+            <div class="tool-bar">
+              <div class="sizing">
+                <button id="remove-btn">
+                  <img src="./img/remove.png" alt="remove.png" />
+                </button>
+                <input type="number" min="11" value="35" id="font-size-input" />
+
+                <button id="add-btn">
+                  <img src="./img/add.png" alt="add" />
+                </button>
+              </div>
+
+              <ul id="font-list"></ul>
+
+              <div class="color-container">
+                <label for="color-input">
+                  <img src="./img/text-color.png" alt="" />
+                </label>
+
+                <input
+                  data-jscolor="{value:'rgba(255,255,255,1)', previewElement:'#pr1'}"
+                  id="color-input"
+                />
+              </div>
+
+              <div class="color-container">
+                <label for="background-color-input">
+                  <img src="./img/fill-color.png" alt="" />
+
+                  <input
+                    id="background-color-input"
+                    data-jscolor="{value:'rgba(255,255,255,0)', previewElement:'#pr1'}"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="trash"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/uploader.js"></script>
     <script src="./js/libraries/html2canvas.min.js"></script>
     <script src="./js/video.js"></script>
     <script src="./js/paint.js"></script>
     <script src="./js/timing.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-<script src="./js/libraries/jscolor.min.js"></script>
+    <script src="./js/libraries/jscolor.min.js"></script>
     <script src="./js/text_styling.js"></script>
+    <script src="./js/addNewText.js"></script>
     <script src="./js/videos.js"></script>
     <script src="./js/modal.js"></script>
-   
-</body>
+  </body>
 </html>

@@ -1,4 +1,5 @@
 function print() {
+  const text_div = document.getElementsByClassName("selected-text-div")[0]
   text_div.style.fontFamily = fontFamily;
   text_div.style.color = color;
   text_div.style.backgroundColor = backgroundColor;
@@ -11,7 +12,7 @@ function print() {
     let x1 = dragContainer.offsetLeft * (precentageW / 100);
     let y1 = dragContainer.offsetTop * (precentageH / 100);
 
-    console.log(mynewCanvas.width, mynewCanvas.height);
+    
     theContext.clearRect(0, 0, theCanvas.width, theCanvas.height);
     theContext.drawImage(
       mynewCanvas,
@@ -27,10 +28,7 @@ function print() {
     //document.getElementById("trash").removeChild(clone)
   });
 
-  // theContext.fillStyle = backgroundColor //background color text
-  // theContext.fillRect(x1 , y1, width1, height1);
-  // theContext.fillStyle = color // color text
-  // canvasTxt.drawText(theContext, text_div.innerText, { x:x1, y:y1 , width:width1 + 10 , height:height1 +10, fontSize: font_size / scaleW, font: fontFamily, align: "center" })
+ 
 }
 
 function dragElement(elmnt, w, h, print) {
@@ -87,8 +85,15 @@ function dragElement(elmnt, w, h, print) {
 
   function closeDragElement() {
     // stop moving when mouse button is released:
-    print();
+    showText() 
     document.onmouseup = null;
     document.onmousemove = null;
   }
+}
+function showText() {
+  const text_div  = getTextDiv()
+ 
+  text_div.style.fontFamily = fontFamily;
+  text_div.style.color = color;
+  text_div.style.backgroundColor = backgroundColor;
 }

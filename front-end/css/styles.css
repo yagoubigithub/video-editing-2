@@ -29,6 +29,24 @@ body{
     width: 200px;
     position: relative;
 }
+.side-bar-menu{
+    list-style: none;
+    padding: 0%;
+    margin: 0;
+}
+.side-bar-menu li{
+
+    padding: 1rem;
+   cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    text-align: center;
+    font-family: Droid Sans;
+    color: white;
+}
+.side-bar-menu li:hover{
+
+   background-color: #505052;
+}
 .content {
     width: calc(100vw - 200px);
     background-color: white;
@@ -154,24 +172,9 @@ display: flex;
     background: #04AA6D;
     cursor: pointer;
 }
-#text{
+.selected-text-div{
     
-    padding: 10px;
-    font-size: 35px;
-    color: white;
-    display: inline-block;
-    word-break: keep-all;
-    white-space: nowrap;
-    
-   
-    text-align: center;
-   
-    position: relative;
-    box-sizing: border-box;
-    width: fit-content;
-    z-index: 999;
-    outline: none;
-   cursor: text;
+  
   
 
 }
@@ -334,7 +337,7 @@ height: 100%;
   /* Modal Content/Box */
   .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 5% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
@@ -357,6 +360,9 @@ height: 100%;
 #video-list{
 
     display: flex;
+    flex-wrap: wrap;
+    max-height: 300px;
+    overflow-y: auto;
 }
   .video-item {
 
