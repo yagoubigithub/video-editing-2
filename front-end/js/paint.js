@@ -32,6 +32,7 @@ function print() {
 }
 
 function dragElement(elmnt, w, h, print) {
+  if(!elmnt) return
   let pos1 = 0,
     pos2 = 0,
     pos3 = 0,
@@ -77,7 +78,7 @@ function dragElement(elmnt, w, h, print) {
     pos3 = e.clientX;
     pos4 = e.clientY;
 
-    console.log(elmnt.offsetTop - pos2, elmnt.offsetLeft - pos1);
+   
     //   // set the element's new position:
     elmnt.style.top = elmnt.offsetTop - pos2 + "px";
     elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
@@ -92,6 +93,7 @@ function dragElement(elmnt, w, h, print) {
 }
 function showText() {
   const text_div  = getTextDiv()
+  if(!text_div) return
  
   text_div.style.fontFamily = fontFamily;
   text_div.style.color = color;

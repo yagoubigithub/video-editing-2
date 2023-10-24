@@ -9,7 +9,7 @@ function getTextDiv() {
   [...document.getElementsByClassName('selected-text-div')].forEach(el => {
     // Do something with each element
     if(!el.classList.contains("not-selected")){
-      console.log("not contain")
+    
       text_div = el
     }
     
@@ -22,6 +22,7 @@ function textDivEvents() {
   const text_div  = getTextDiv()
  
 
+  if(!text_div) return
   
   
   
@@ -128,14 +129,16 @@ backgroundInput.addEventListener("input" , (ev)=>{
 
 textDivEvents()
 
+if(document.getElementsByClassName("selected-text-div")[0]){
+  document.getElementsByClassName("selected-text-div")[0].addEventListener("click", () => {
+    [...document.getElementsByClassName("selected-text-div")].forEach(
+      (el) => {
+        // Do something with each element
+        el.classList.add("not-selected");
+      }
+    );
+    document.getElementsByClassName("selected-text-div")[0].classList.remove("not-selected");
+    textDivEvents();
+  });
+}
 
-document.getElementsByClassName("selected-text-div")[0].addEventListener("click", () => {
-  [...document.getElementsByClassName("selected-text-div")].forEach(
-    (el) => {
-      // Do something with each element
-      el.classList.add("not-selected");
-    }
-  );
-  document.getElementsByClassName("selected-text-div")[0].classList.remove("not-selected");
-  textDivEvents();
-});

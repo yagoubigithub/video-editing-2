@@ -1,6 +1,6 @@
 //elemnets
 
-const dragContainer = document.getElementById("drag-container");
+//const dragContainer = document.getElementById("drag-container");
 const videoContainer = document.getElementById("video-container");
 const download_btn = document.getElementById("download_btn");
 const theCanvas = document.createElement("canvas");
@@ -102,13 +102,13 @@ async function showFrame() {
 
    canvas.addEventListener('click', (event) => clickCanvas(canvas, context, event.offsetX, event.offsetY))
 
-   console.log("show")
+  
 }
 
 async function videoCanPlay() {
   fired++;
   if (fired < 4) {
-    console.log("fired");
+   
     document.getElementById("splash-screen").style.display = "none";
 
     w = document.body.getBoundingClientRect().width - 450;
@@ -119,10 +119,13 @@ async function videoCanPlay() {
     precentageW = (video.videoWidth / w) * 100;
     precentageH = (video.videoHeight / h) * 100;
 
-    dragContainer.style.left = w / 2 - dragContainer.offsetWidth / 2 + "px";
-    dragContainer.style.top = h / 2 - dragContainer.offsetHeight + "px";
+ //   dragContainer.style.left = w / 2 - dragContainer.offsetWidth / 2 + "px";
+   // dragContainer.style.top = h / 2 - dragContainer.offsetHeight + "px";
 
-    dragElement(dragContainer, w, h, print);
+  if(fired >= 3){
+    const dragContainer = addNewText ( w/ 2  / 2 ,h / 2  , "come and enjoy" )
+    dragElement(dragContainer, w, h, print );
+  }
     canvas.width = w;
     canvas.height = h;
 

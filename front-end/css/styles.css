@@ -181,7 +181,7 @@ display: flex;
 #drag-container {
     position: absolute;
    
-    padding: 5px;
+    
    
     background-color: transparent;
     border: 3px dashed white;
