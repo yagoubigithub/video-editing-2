@@ -40,7 +40,11 @@ function init() {
 }
 
 async function showFrame() {
-  if (!localStorage.getItem("file")) return;
+  if (!localStorage.getItem("file")) {
+   if(document.getElementById("splash-screen")) document.getElementById("splash-screen").style.display = "none";
+
+    return;
+  };
   if(document.getElementById("video")){
     document.removeChild(document.getElementById("video"))
   }

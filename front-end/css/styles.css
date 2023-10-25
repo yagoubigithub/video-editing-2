@@ -178,17 +178,9 @@ display: flex;
   
 
 }
-#drag-container {
-    position: absolute;
-   
-    
-   
-    background-color: transparent;
-    border: 3px dashed white;
-    width: fit-content;
-    z-index: 998;
-    cursor: move;
-    
+
+.red {
+    color: red;
 }
 .tool-bar {
    

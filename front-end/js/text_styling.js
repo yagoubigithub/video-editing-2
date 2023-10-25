@@ -59,6 +59,7 @@ function fontSizeInputEvent(ev) {
   font_size = value
   font_size_input.value = value
   text_div.style.fontSize = value + "px"
+  
   showText() 
 }
 

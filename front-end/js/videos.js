@@ -41,7 +41,7 @@ function showVideosList() {
 
            video.addEventListener("click" , async ()=>{
             // select
-            document.getElementsByClassName('video-item-active')[0].className = "video-item"
+           if(document.getElementsByClassName('video-item-active')[0]) document.getElementsByClassName('video-item-active')[0].className = "video-item"
             videoItemContainer.className = "video-item-active"
             localStorage.setItem("file" , JSON.stringify(file))
            await showFrame()

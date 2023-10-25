@@ -1,5 +1,17 @@
 //new-text-btn
 
+const initStyle = {
+  "position": "absolute",
+   
+    
+   
+    "background-color": "transparent",
+    "border": "3px dashed white",
+    "width": "fit-content",
+    "z-index": "998",
+    "cursor": "move",
+}
+
 const NewTextBtn = document.getElementById("new-text-btn");
 let insertText = false;
 NewTextBtn.addEventListener("click", () => {
@@ -14,15 +26,14 @@ function clickCanvas(canvas, context, x, y) {
 
 
 function addNewText(x, y , text) {
-  console.log("new")
+  
   const input = document.createElement("div");
 
   input.setAttribute("contenteditable", "true");
 
   input.innerText = text;
 
-  let isitthestart =  [...document.getElementsByClassName("selected-text-div")].length;
- 
+  
   [...document.getElementsByClassName("selected-text-div")].forEach((el) => {
     // Do something with each element
     el.classList.add("not-selected");
@@ -67,7 +78,18 @@ function addNewText(x, y , text) {
 
 
     const myDrag = document.createElement("div");
-   
+    const uid = uuid(8)
+  
+    myDrag.id = uid
+    input.id = "input-"+uid;
+    let myDragStyle = ""
+    Object.keys(initStyle).map(key=>{
+  
+      myDragStyle += key + ": " + initStyle[key] + ";"
+    })
+  
+    myDrag.setAttribute("style" , myDragStyle)
+  
     dragElement(myDrag, w, h, print);
 
     myDrag.append(input);
@@ -88,7 +110,7 @@ function addNewText(x, y , text) {
     selection.addRange(range);
     input.focus();
 
-    
+   
 
 
 
@@ -117,4 +139,14 @@ function addNewText(x, y , text) {
     // videoContainer.removeChild(input)
     // videoContainer.append(txtCanvas)
   }); 
+
+  const data = {
+    id :uid,
+    input,
+    myDrag,
+    styles : {...initStyle}
+      
+  }
+
+  texts.push(data)
 }

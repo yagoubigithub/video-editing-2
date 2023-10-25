@@ -86,7 +86,7 @@ function dragElement(elmnt, w, h, print) {
 
   function closeDragElement() {
     // stop moving when mouse button is released:
-    showText() 
+ //   showText() 
     document.onmouseup = null;
     document.onmousemove = null;
   }
@@ -95,6 +95,27 @@ function showText() {
   const text_div  = getTextDiv()
   if(!text_div) return
  
+  const uid = text_div.id.split("-")[1];
+ 
+  texts =  texts.map(text=>{
+    if(text.id == uid){
+
+      return {
+        ...text,
+        styles :{
+         ... text.styles,
+         "font-family":fontFamily,
+         "color":color,
+         "background-color":backgroundColor
+
+
+        }
+      }
+
+    }
+    return text
+  })
+
   text_div.style.fontFamily = fontFamily;
   text_div.style.color = color;
   text_div.style.backgroundColor = backgroundColor;

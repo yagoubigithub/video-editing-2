@@ -24,6 +24,7 @@ function myModel(modalId, btnId, closeId , callback) {
       model.style.display = "none";
     }
   };
+  return model
 }
 
 

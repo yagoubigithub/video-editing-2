@@ -45,6 +45,29 @@
           <li>
             <div>Temlates</div>
           </li>
+
+          <li id="save-as-template-btn">
+            <div>Save as Template</div>
+          </li>
+
+          <div id="save-template-model" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close" id="close-save-template-modal">&times;</span>
+              <div >
+                <h1>Save as Template</h1>
+
+               <form id="save-template-form" >
+
+                <label for="save-template-input-name">Template Name</label>
+                <input type="text" id="save-template-input-name" placeholder="Template Name" required>
+               
+                <div id="form-tmplate-error" class="red"></div>
+                <input type="submit" value="Save">
+               </form>
+              </div>
+            </div>
+          </div>
         </ul>
 
         <div class="play-btn-container">
@@ -116,6 +139,7 @@
     <div id="trash"></div>
 
     <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/uploader.js"></script>
     <script src="./js/libraries/html2canvas.min.js"></script>
     <script src="./js/video.js"></script>
@@ -127,5 +151,7 @@
     <script src="./js/addNewText.js"></script>
     <script src="./js/videos.js"></script>
     <script src="./js/modal.js"></script>
+    <script src="./js/template.js"></script>
+   
   </body>
 </html>
