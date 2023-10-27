@@ -144,6 +144,7 @@ function addNewText(x, y , text) {
   }); 
 
   const {from , to} = getFromTo()
+  addTiming(from , to ,  uid) 
   const data = {
     id :uid,
     input,

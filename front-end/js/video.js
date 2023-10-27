@@ -143,11 +143,10 @@ async function videoCanPlay() {
     video.currentTime = 0;
 
     one_second = w / video.duration;
-    timing.style.width = one_second * 3 + "px";
-    time.innerHTML =
-      new Date(from * 1000).toISOString().substring(14, 19) +
+    //document.getElementById("timing-container").style.width = one_second * 3 + "px";
+  /* time.innerHTML =new Date(from * 1000).toISOString().substring(14, 19) +
       "---" +
-      new Date(to * 1000).toISOString().substring(14, 19);
+      new Date(to * 1000).toISOString().substring(14, 19); */
 
     duration = video.duration;
     context.drawImage(video, 0, 0, w, h);
