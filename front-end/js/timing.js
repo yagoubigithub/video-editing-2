@@ -87,9 +87,9 @@ function addTiming(orignal_from, orignal_to, id) {
 
   let original_width = 0;
   let original_x = 0;
-  let original_y = 0;
+
   let original_mouse_x = 0;
-  let original_mouse_y = 0;
+
   let minwidth = 100,
   from = 0,
   to = 3;

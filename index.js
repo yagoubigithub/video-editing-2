@@ -50,7 +50,11 @@ app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "front-end", "index.html"));
   });
 
-
+  app.get("/download", function (req, res) {
+    const file = `${__dirname}/output.mp4`;
+    res.download(file); // Set disposition and send it.
+  });
+  
 
   
 const server = app.listen(port, () => {
