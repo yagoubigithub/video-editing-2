@@ -42,8 +42,9 @@ mongoose.connect(process.env.MONGO_URL,{
 
 //routes
 const videoRoutes = require("./back-end/routes/videos")
-
+const mergeRoutes = require("./back-end/routes/merge")
 app.use("/api/videos",videoRoutes)
+app.use("/api/merge",mergeRoutes)
 
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "front-end", "index.html"));
