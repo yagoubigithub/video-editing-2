@@ -143,13 +143,28 @@ function addNewText(x, y , text) {
     // videoContainer.append(txtCanvas)
   }); 
 
+  const {from , to} = getFromTo()
   const data = {
     id :uid,
     input,
     myDrag,
-    styles : {...initStyle}
+    styles : {...initStyle},
+    from,
+    to
       
   }
 
   texts.push(data)
+}
+
+function getFromTo() {
+  let from = 0, to = 0 
+  texts.map(text=>{
+
+    from+=text.to;
+    
+  })
+
+  to = from + 3
+  return {from , to }
 }

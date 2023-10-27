@@ -40,7 +40,7 @@ function selectTemplate(id) {
     }
   }
 
-  template.texts.map((text) => {
+  texts = template.texts.map((text) => {
     const myDrag = document.createElement("div");
     let drag_styles = JSON.stringify(text.drag_styles)
       .replaceAll(",", ";")
@@ -98,5 +98,15 @@ function selectTemplate(id) {
     input.setAttribute("style", input_styles);
     dragElement(myDrag, w, h, print);
     myDrag.append(input);
+
+    const data = {
+      ...text,
+      myDrag,
+      input,
+      drag_styles,
+      input_styles,
+     
+    }
+    return data
   });
 }
