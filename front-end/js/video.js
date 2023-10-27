@@ -127,7 +127,7 @@ async function videoCanPlay() {
    // dragContainer.style.top = h / 2 - dragContainer.offsetHeight + "px";
 
   if(fired >= 3){
-    const dragContainer = addNewText ( w/ 2  / 2 ,h / 2  , "come and enjoy" )
+    const dragContainer = addNewText ( w/ 2  - 130 ,(h / 2) - 33  , "come and enjoy" )
     dragElement(dragContainer, w, h, print );
   }
     canvas.width = w;

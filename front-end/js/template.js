@@ -14,7 +14,7 @@ form.addEventListener("submit", (ev) => {
   const value = document.getElementById("save-template-input-name").value
   if (templates.filter(template=>value === template.name).length > 0) {
     //form-tmplate-error
-    document.getElementById("form-tmplate-error").innerText = "This name allredy exist"
+    document.getElementById("form-tmplate-error").innerText = "This name alredy exist"
     return;
   }
   const template_id = uuid()

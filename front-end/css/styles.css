@@ -182,6 +182,20 @@ display: flex;
 .red {
     color: red;
 }
+#templates-table {
+    display: flex;
+
+}
+#templates-table  > div{
+
+    flex: 1;
+    text-align: center;
+}
+#templates-table  > div > div{
+
+    padding: 1rem;
+    text-align: center;
+}
 .tool-bar {
    
     background-color: white;

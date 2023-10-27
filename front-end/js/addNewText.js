@@ -51,7 +51,10 @@ function addNewText(x, y , text) {
    
    
 
-    
+    font_size = window.getComputedStyle(input).fontSize;
+    fontFamily = window.getComputedStyle(input).fontFamily;
+    color = window.getComputedStyle(input).color;
+    backgroundColor = window.getComputedStyle(input).backgroundColor;
 
     input.classList.remove("not-selected");
     textDivEvents();
