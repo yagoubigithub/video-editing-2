@@ -21,6 +21,7 @@ const templatesModel = myModel(
       templateActionContainer.innerHTML += `<div>
             
             <button onclick="selectTemplate(${template.id})">Select</button>
+            <button onclick="exportTemplate(${template.id})">Export</button>
             </div>`;
     });
   }
@@ -109,4 +110,15 @@ function selectTemplate(id) {
     }
     return data
   });
+}
+
+function exportTemplate(id) {
+  const template = JSON.stringify(templates.filter((t) => t.id === id)[0])
+  
+
+  const a = document.createElement("a");
+    const file = new Blob([template], {type: "application/json"});
+    a.href = URL.createObjectURL(file);
+    a.download = "file.json";
+    a.click();
 }
