@@ -79,6 +79,11 @@ function addTiming(orignal_from, orignal_to, id) {
 
 
   timing.style.left = one_second*orignal_from + "px"
+
+
+  timing.style.top = ((texts.length  ) * 54 ) + "px"
+
+  
   time.innerHTML =
     new Date(orignal_from * 1000).toISOString().substring(14, 19) +
     "---" +

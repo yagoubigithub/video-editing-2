@@ -100,7 +100,7 @@ body {
 
 .timing {
   background-color: #505052;
-  height: 100px;
+  height: 50px;
 
   position: absolute;
   color: white;
@@ -113,7 +113,7 @@ body {
   left: -4px;
   background-color: cornflowerblue;
   width: 8px;
-  height: 70px;
+  height: 30px;
   margin: auto;
   border-radius: 4px;
   bottom: 0;
@@ -124,13 +124,15 @@ body {
   width: 100%;
   height: 100px;
   position: relative;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 .timing-right {
   position: absolute;
   right: -4px;
   background-color: cornflowerblue;
   width: 8px;
-  height: 70px;
+  height: 30px;
   margin: auto;
   border-radius: 4px;
   bottom: 0;

@@ -166,6 +166,8 @@ function getFromTo() {
     
   })
 
-  to = from + 3
-  return {from , to }
+ // to = from + 3
+ from = 0
+ to = 3
+  return {from   , to }
 }
