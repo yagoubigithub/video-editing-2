@@ -1,3 +1,5 @@
+const   importTemplateBtn = document.getElementById("import-template-btn")
+
 const templatesModel = myModel(
   "templates-model",
   "templates-btn",
@@ -30,6 +32,7 @@ const templatesModel = myModel(
 function selectTemplate(id) {
   const template = templates.filter((t) => t.id === id)[0];
 
+  texts = [...template.texts]
   let childDivs = videoContainer.getElementsByTagName("div");
 
   for (i = 0; i < childDivs.length; i++) {
@@ -40,8 +43,9 @@ function selectTemplate(id) {
       console.log(childDiv.id);
     }
   }
-
-  texts = template.texts.map((text) => {
+  document.getElementById("timing-container").innerHTML = ""
+  texts = template.texts.map((text , index) => {
+    
     const myDrag = document.createElement("div");
     let drag_styles = JSON.stringify(text.drag_styles)
       .replaceAll(",", ";")
@@ -100,6 +104,9 @@ function selectTemplate(id) {
     dragElement(myDrag, w, h, print);
     myDrag.append(input);
 
+    const {from , to , id} = text
+    
+    addTiming(from , to ,  id , index ) 
     const data = {
       ...text,
       myDrag,
@@ -122,3 +129,48 @@ function exportTemplate(id) {
     a.download = "file.json";
     a.click();
 }
+
+importTemplateBtn.addEventListener("click" , (ev)=>{
+  const selectDialog = document.createElement("INPUT"); 
+
+  selectDialog.setAttribute("type", "file"); 
+  selectDialog.setAttribute("multiple", "false"); 
+selectDialog.style.display = "none"; 
+
+selectDialog.click(); 
+
+selectDialog.addEventListener("change", function(){ 
+	
+	console.log(selectDialog.files); 
+
+  const file = selectDialog.files[0]
+  const reader = new FileReader();
+    reader.readAsText(file, "UTF-8");
+
+    reader.onload = function (evt) {
+      try {
+       
+        const template = JSON.parse(evt.target.result)
+      
+        templates = JSON.parse(localStorage.getItem("templates")) || []
+
+        templates.push(template)
+        console.log(template , templates)
+        selectTemplate(template.id)
+        localStorage.setItem("templates" , JSON.stringify(templates))
+        
+      } catch (error) {
+        alert("error : invalid file")
+        console.log(error)
+      }
+      
+  }
+  reader.onerror = function (evt) {
+     console.log("error")
+  }
+
+
+}); 
+
+
+})

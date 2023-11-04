@@ -64,7 +64,7 @@
 
 // })
 
-function addTiming(orignal_from, orignal_to, id) {
+function addTiming(orignal_from, orignal_to, id , index) {
   const timing = document.createElement("div");
   timing.className = "timing";
 
@@ -81,7 +81,7 @@ function addTiming(orignal_from, orignal_to, id) {
   timing.style.left = one_second*orignal_from + "px"
 
 
-  timing.style.top = ((texts.length  ) * 54 ) + "px"
+  timing.style.top = ((index  ) * 54 ) + "px"
 
   
   time.innerHTML =
