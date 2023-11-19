@@ -1,16 +1,14 @@
 //new-text-btn
 
 const initStyle = {
-  "position": "absolute",
-   
-    
-   
-    "background-color": "transparent",
-    "border": "3px dashed white",
-    "width": "fit-content",
-    "z-index": "998",
-    "cursor": "move",
-}
+  position: "absolute",
+
+  "background-color": "transparent",
+  border: "3px dashed white",
+  width: "fit-content",
+  "z-index": "998",
+  cursor: "move",
+};
 
 const NewTextBtn = document.getElementById("new-text-btn");
 let insertText = false;
@@ -20,20 +18,25 @@ NewTextBtn.addEventListener("click", () => {
 
 function clickCanvas(canvas, context, x, y) {
   if (insertText) {
-    addNewText(x,y , "New Text")
+    addNewText(x, y, "New Text");
   }
 }
 
+function addNewText(x, y, text) {
+  // init();
 
-function addNewText(x, y , text) {
-  
+  //font text
+  font_size = 35;
+  fontFamily = "Arial";
+  color = "#ffffff";
+  backgroundColor = "#ffffff00";
+
   const input = document.createElement("div");
 
   input.setAttribute("contenteditable", "true");
 
   input.innerText = text;
 
-  
   [...document.getElementsByClassName("selected-text-div")].forEach((el) => {
     // Do something with each element
     el.classList.add("not-selected");
@@ -41,15 +44,11 @@ function addNewText(x, y , text) {
 
   input.addEventListener("click", () => {
     //select
-    if(!input.classList.contains("not-selected")) return
-    [...document.getElementsByClassName("selected-text-div")].forEach(
-      (el) => {
-        // Do something with each element
-        el.classList.add("not-selected");
-      }
-    );
-   
-   
+    if (!input.classList.contains("not-selected")) return;
+    [...document.getElementsByClassName("selected-text-div")].forEach((el) => {
+      // Do something with each element
+      el.classList.add("not-selected");
+    });
 
     font_size = window.getComputedStyle(input).fontSize;
     fontFamily = window.getComputedStyle(input).fontFamily;
@@ -78,46 +77,37 @@ function addNewText(x, y , text) {
   input.style.left = x + "px";
   input.style.top = y + "px";
 
+  const myDrag = document.createElement("div");
+  const uid = uuid(8);
 
+  myDrag.id = uid;
+  input.id = "input-" + uid;
+  let myDragStyle = "";
+  Object.keys(initStyle).map((key) => {
+    myDragStyle += key + ": " + initStyle[key] + ";";
+  });
 
-    const myDrag = document.createElement("div");
-    const uid = uuid(8)
-  
-    myDrag.id = uid
-    input.id = "input-"+uid;
-    let myDragStyle = ""
-    Object.keys(initStyle).map(key=>{
-  
-      myDragStyle += key + ": " + initStyle[key] + ";"
-    })
-  
-    myDrag.setAttribute("style" , myDragStyle)
-  
-    dragElement(myDrag, w, h, print);
+  myDrag.setAttribute("style", myDragStyle);
 
-    myDrag.append(input);
-    videoContainer.appendChild(myDrag);
+  dragElement(myDrag, w, h, print);
 
-    myDrag.style.left = input.offsetLeft + "px";
-    myDrag.style.top = input.offsetTop + "px";
-    input.style.top = "0px";
-    input.style.left = "0px";
-    input.style.position = "static";
-    input.classList.remove("not-selected");
-   
-    const selection = window.getSelection();
-    const range = document.createRange();
-    selection.removeAllRanges();
-    range.selectNodeContents(input);
-    range.collapse(false);
-    selection.addRange(range);
-    input.focus();
+  myDrag.append(input);
+  videoContainer.appendChild(myDrag);
 
-   
+  myDrag.style.left = input.offsetLeft + "px";
+  myDrag.style.top = input.offsetTop + "px";
+  input.style.top = "0px";
+  input.style.left = "0px";
+  input.style.position = "static";
+  input.classList.remove("not-selected");
 
-
-
- 
+  const selection = window.getSelection();
+  const range = document.createRange();
+  selection.removeAllRanges();
+  range.selectNodeContents(input);
+  range.collapse(false);
+  selection.addRange(range);
+  input.focus();
 
   window.setTimeout(function () {
     input.focus();
@@ -141,33 +131,31 @@ function addNewText(x, y , text) {
 
     // videoContainer.removeChild(input)
     // videoContainer.append(txtCanvas)
-  }); 
+  });
 
-  const {from , to} = getFromTo()
-  addTiming(from , to ,  uid , texts.length) 
+  const { from, to } = getFromTo();
+  addTiming(from, to, uid, texts.length);
   const data = {
-    id :uid,
+    id: uid,
     input,
     myDrag,
-    styles : {...initStyle},
+    styles: { ...initStyle },
     from,
-    to
-      
-  }
+    to,
+  };
 
-  texts.push(data)
+  texts.push(data);
 }
 
 function getFromTo() {
-  let from = 0, to = 0 
-  texts.map(text=>{
+  let from = 0,
+    to = 0;
+  texts.map((text) => {
+    from += text.to;
+  });
 
-    from+=text.to;
-    
-  })
-
- // to = from + 3
- from = 0
- to = 3
-  return {from   , to }
+  // to = from + 3
+  from = 0;
+  to = 3;
+  return { from, to };
 }

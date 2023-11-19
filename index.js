@@ -30,6 +30,8 @@ const port = process.env.PORT || 3000;
 app.use(express.static("front-end"));
 app.use(express.static("back-end/uploads"));
 
+console.log("db-url :" , process.env.MONGO_URL)
+
 mongoose.connect(process.env.MONGO_URL,{
 
   useNewUrlParser : true

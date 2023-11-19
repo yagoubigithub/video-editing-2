@@ -128,6 +128,7 @@ async function videoCanPlay() {
 
   if(fired >= 3){
     const dragContainer = addNewText ( w/ 2  - 130 ,(h / 2) - 33  , "come and enjoy" )
+    textDivEvents()
     dragElement(dragContainer, w, h, print );
   }
     canvas.width = w;
