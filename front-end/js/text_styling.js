@@ -110,23 +110,67 @@ for (let i = 0; i < fonts.length; i++) {
   })
 }
 
+const colorToggle  = document.getElementById("color-toggle")
 
-const colorInput  = document.getElementById("color-input")
+AColorPicker.from(".color-picker").on("change",  (ev)=>{
 
-colorInput.addEventListener("input" , (ev)=>{
 
-  color = ev.target.value
+  rgba = ev.rgba
+  color = `rgba(${rgba[0]} ,  ${rgba[1]}  ,  ${rgba[2]}  , ${rgba[3]})`
+  colorToggle.style.fill = color
   showText() 
 })
 
-const backgroundInput  = document.getElementById("background-color-input")
 
-backgroundInput.addEventListener("input" , (ev)=>{
+
+
+colorToggle.addEventListener("click" , (ev)=>{
+
  
-  backgroundColor = ev.target.value
+
+  const x =  document.getElementsByClassName("color-picker")[0];
+
+  console.log(x.style.display)
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+
+  }
+  
+})
+
+
+
+const backgroundToggle  = document.getElementById("background-toggle")
+
+AColorPicker.from(".background-picker").on("change",  (ev)=>{
+
+
+  rgba = ev.rgba
+  backgroundColor = `rgba(${rgba[0]} ,  ${rgba[1]}  ,  ${rgba[2]}  , ${rgba[3]})`
+  backgroundToggle.style.fill = backgroundColor
   showText() 
 })
 
+
+
+
+backgroundToggle.addEventListener("click" , (ev)=>{
+
+ 
+
+  const x =  document.getElementsByClassName("background-picker")[0];
+
+  console.log(x.style.display)
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+
+  }
+  
+})
 
 textDivEvents()
 

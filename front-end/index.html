@@ -1,58 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Video Edit</title>
 
-    <link rel="stylesheet" href="./css/styles.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Edit</title>
 
-  <body>
-    <div id="progress"></div>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
 
-    <div id="splash-screen">
-      <div class="loader"></div>
-    </div>
-    <div class="container">
-      <div class="side-bar">
-        <ul class="side-bar-menu">
-          <li id="new-text-btn">New Text</li>
-          <label for="chooseFiles">
-            <li>Browse Videos</li>
-          </label>
+<body>
+  <div id="progress"></div>
 
-          <input
-            type="button"
-            hidden="true"
-            id="chooseFiles"
-            class="chooseFiles"
-            value="Select..."
-          />
+  <div id="splash-screen">
+    <div class="loader"></div>
+  </div>
+  <div class="container">
+    <div class="side-bar">
+      <ul class="side-bar-menu">
+        <li id="new-text-btn">New Text</li>
+        <label for="chooseFiles">
+          <li>Browse Videos</li>
+        </label>
 
-          <li id="btn-open-videos">
-            <div>Videos</div>
-          </li>
+        <input type="button" hidden="true" id="chooseFiles" class="chooseFiles" value="Select..." />
 
-          <div id="videos-model" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-              <span class="close" id="close-videos-modal">&times;</span>
-              <div id="video-list"></div>
-            </div>
+        <li id="btn-open-videos">
+          <div>Videos</div>
+        </li>
+
+        <div id="videos-model" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close" id="close-videos-modal">&times;</span>
+            <div id="video-list"></div>
           </div>
+        </div>
 
-          <li id="templates-btn">
-            <div>Temlates</div>
-          </li>
+        <li id="templates-btn">
+          <div>Temlates</div>
+        </li>
 
-          <div id="templates-model" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-              <span class="close" id="close-templates-modal">&times;</span>
-              <div >
-                <h1> Templates</h1>
-               <div id="templates-table">
+        <div id="templates-model" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close" id="close-templates-modal">&times;</span>
+            <div>
+              <h1> Templates</h1>
+              <div id="templates-table">
 
                 <div id="template-name-container" class="template-col">
                   <div>Name</div>
@@ -69,127 +64,146 @@
 
                 </div>
 
-               </div>
-
               </div>
+
             </div>
           </div>
+        </div>
 
-          <li id="save-as-template-btn">
-            <div>Save as Template</div>
-          </li>
+        <li id="save-as-template-btn">
+          <div>Save as Template</div>
+        </li>
 
-          <div id="save-template-model" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-              <span class="close" id="close-save-template-modal">&times;</span>
-              <div >
-                <h1>Save as Template</h1>
+        <div id="save-template-model" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close" id="close-save-template-modal">&times;</span>
+            <div>
+              <h1>Save as Template</h1>
 
-               <form id="save-template-form" >
+              <form id="save-template-form">
 
                 <label for="save-template-input-name">Template Name</label>
                 <input type="text" id="save-template-input-name" placeholder="Template Name" required>
-               
+
                 <div id="form-tmplate-error" class="red"></div>
                 <input type="submit" value="Save">
-               </form>
-              </div>
+              </form>
             </div>
           </div>
-
-
-          <li id="import-template-btn">
-            Import Template
-          </li>
-        </ul>
-
-        <div class="play-btn-container">
-          <button id="play-btn">
-            <img src="./img/play-2.png" alt="" />
-          </button>
         </div>
+
+
+        <li id="import-template-btn">
+          Import Template
+        </li>
+      </ul>
+
+      <div class="play-btn-container">
+        <button id="play-btn">
+          <img src="./img/play-2.png" alt="" />
+        </button>
       </div>
-      <div class="content">
-        <div class="top-bar">
-          <button id="download_btn">download</button>
-        </div>
+    </div>
+    <div class="content">
+      <div class="top-bar">
+        <button id="download_btn">download</button>
+      </div>
 
-        <div class="content-container">
-          <div class="video-container">
-            <div>
-              <div id="video-container">
-               
-              </div>
-              <input type="range" min="0" step="0.1" id="myRange" />
+      <div class="content-container">
+        <div class="video-container">
+          <div>
+            <div id="video-container">
 
-              <div id="timing-container"></div>
-              <!-- <div id="timing">
+            </div>
+            <input type="range" min="0" step="0.1" id="myRange" />
+
+            <div id="timing-container"></div>
+            <!-- <div id="timing">
                 <div id="timing-left" class="left"></div>
                 <div id="time"></div>
                 <div id="timing-right" class="right"></div>
               </div> -->
+          </div>
+
+          <div class="tool-bar">
+            <div class="sizing">
+              <button id="remove-btn">
+                <img src="./img/remove.png" alt="remove.png" />
+              </button>
+              <input type="number" min="11" value="35" id="font-size-input" />
+
+              <button id="add-btn">
+                <img src="./img/add.png" alt="add" />
+              </button>
             </div>
 
-            <div class="tool-bar">
-              <div class="sizing">
-                <button id="remove-btn">
-                  <img src="./img/remove.png" alt="remove.png" />
-                </button>
-                <input type="number" min="11" value="35" id="font-size-input" />
+            <ul id="font-list"></ul>
 
-                <button id="add-btn">
-                  <img src="./img/add.png" alt="add" />
-                </button>
-              </div>
+            <div class="color-container">
+           
 
-              <ul id="font-list"></ul>
+                <svg xmlns="http://www.w3.org/2000/svg" id="color-toggle" enable-background="new 0 0 24 24"
+                  height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+                  <g>
+                    <rect fill="none" height="24" width="24" />
+                  </g>
+                  <g>
+                    <path
+                      d="M2,20h20v4H2V20z M5.49,17h2.42l1.27-3.58h5.65L16.09,17h2.42L13.25,3h-2.5L5.49,17z M9.91,11.39l2.03-5.79h0.12l2.03,5.79 H9.91z" />
+                  </g>
+                </svg>
 
-              <div class="color-container">
-                <label for="color-input">
-                  <img src="./img/text-color.png" alt="" />
-                </label>
 
-                <input
-                  data-jscolor="{value:'rgba(255,255,255,1)', previewElement:'#pr1'}"
-                  id="color-input"
-                />
-              </div>
 
-              <div class="color-container">
-                <label for="background-color-input">
-                  <img src="./img/fill-color.png" alt="" />
+                <div class="color-picker" acp-color="rgba(255,255,255,1)" acp-show-rgb="no" acp-show-hsl="no"
+                  acp-show-hex="no" acp-show-alpha>
+                </div>
+              
 
-                  <input
-                    id="background-color-input"
-                    data-jscolor="{value:'rgba(255,255,255,0)', previewElement:'#pr1'}"
-                  />
-                </label>
-              </div>
+
+            </div>
+
+            <div class="color-container">
+             
+                <svg xmlns="http://www.w3.org/2000/svg" id="background-toggle" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><rect fill="none" height="24" width="24"/></g><g><path d="M16.56,8.94L7.62,0L6.21,1.41l2.38,2.38L3.44,8.94c-0.59,0.59-0.59,1.54,0,2.12l5.5,5.5C9.23,16.85,9.62,17,10,17 s0.77-0.15,1.06-0.44l5.5-5.5C17.15,10.48,17.15,9.53,16.56,8.94z M5.21,10L10,5.21L14.79,10H5.21z M19,11.5c0,0-2,2.17-2,3.5 c0,1.1,0.9,2,2,2s2-0.9,2-2C21,13.67,19,11.5,19,11.5z M2,20h20v4H2V20z"/></g></svg>
+
+                <div class="background-picker" acp-color="rgba(255,255,255,0)" acp-show-rgb="no" acp-show-hsl="no"
+                acp-show-hex="no" acp-show-alpha>
+            
+
+
+
+
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div id="trash"></div>
+  <div id="trash"></div>
 
-    <script src="js/config.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/uploader.js"></script>
-    <script src="./js/libraries/html2canvas.min.js"></script>
-    <script src="./js/video.js"></script>
-    <script src="./js/paint.js"></script>
-    <script src="./js/timing.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-    <script src="./js/libraries/jscolor.min.js"></script>
-    <script src="./js/text_styling.js"></script>
-    <script src="./js/addNewText.js"></script>
-    <script src="./js/videos.js"></script>
-    <script src="./js/modal.js"></script>
-    <script src="./js/template.js"></script>
-    <script src="./js/templates.js"></script>
-    <script src="./js/download.js"></script>
-   
-  </body>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/uploader.js"></script>
+  <script src="./js/libraries/html2canvas.min.js"></script>
+  <script src="./js/video.js"></script>
+  <script src="./js/paint.js"></script>
+  <script src="./js/timing.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script src="./js/libraries/jscolor.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/a-color-picker@1.2.1/dist/acolorpicker.min.js"></script>
+
+
+  <script src="./js/text_styling.js"></script>
+  <script src="./js/addNewText.js"></script>
+  <script src="./js/videos.js"></script>
+  <script src="./js/modal.js"></script>
+  <script src="./js/template.js"></script>
+  <script src="./js/templates.js"></script>
+  <script src="./js/download.js"></script>
+
+</body>
+
 </html>
