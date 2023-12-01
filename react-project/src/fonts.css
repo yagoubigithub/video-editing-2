@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'Bebas Neue';
+    src: local('Bebas Neue'), url(./fonts/Bebas_Neue/BebasNeue-Regular.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Croissant One';
+    src: local('Croissant One'), url(./fonts/Croissant_One/CroissantOne-Regular.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Fuggles';
+    src: local('Fuggles'), url(./fonts/Fuggles/Fuggles-Regular.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Great Vibes';
+    src: local('Great Vibes'), url(./fonts/Great_Vibes/GreatVibes-Regular.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Kaushan Script';
+    src: local('Kaushan Script'), url(./fonts/Kaushan_Script/KaushanScript-Regular.ttf) format('truetype');
+  }
+
+
+  @font-face {
+    font-family: 'Pacifico';
+    src: local('Pacifico'), url(./fonts/Pacifico/Pacifico-Regular.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Passion One';
+    src: local('Passion One'), url(./fonts/Passion_One/PassionOne-Regular.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Philosopher';
+    src: local('Philosopher'), url(./fonts/Philosopher/Philosopher-Regular.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Yellowtail';
+    src: local('Yellowtail'), url(./fonts/Yellowtail/Yellowtail-Regular.ttf) format('truetype');
+  }
