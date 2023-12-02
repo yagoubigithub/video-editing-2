@@ -15,14 +15,14 @@ let fired = 0;
 
 const Video = () => {
 
-   
-    const { file , context , w ,  h  ,  setH, setW ,   setContext , video , setVideo , insertText , addNewText } = useContext(TextContext)
+
+    const { file, context, w, h, setH, setW, setContext, video, setVideo ,setInsertText  ,getInsertText, addNewText, texts } = useContext(TextContext)
 
     const videoContainer = useRef()
 
-    const [isPlaying , setIsPlaying]= useState(false)
-    const [currentTime , setCurrentTime]= useState(0)
-    const [duration , setDuration] = useState(0)
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [currentTime, setCurrentTime] = useState(0)
+    const [duration, setDuration] = useState(0)
 
     useEffect(() => {
 
@@ -35,7 +35,7 @@ const Video = () => {
             };
 
             console.log(document.getElementById("video"))
-            if(document.getElementById("video")){
+            if (document.getElementById("video")) {
                 document.removeChild(document.getElementById("video"))
             }
 
@@ -54,18 +54,21 @@ const Video = () => {
 
             setContext(context)
 
-           let  w = document.body.getBoundingClientRect().width - 200;
-           let  h = document.body.getBoundingClientRect().height - 200;
-           setW(w)
-           setH(h)
-           canvas.width = w;
-           canvas.height = h;
-           setVideo(video)
-            video.addEventListener("canplay", () => videoCanPlay(video, canvas, context , w ,h));
+            let w = document.body.getBoundingClientRect().width - 200;
+            let h = document.body.getBoundingClientRect().height - 200;
+            setW(w)
+            setH(h)
+            canvas.width = w;
+            canvas.height = h;
+            setVideo(video)
+            video.addEventListener("canplay", () => videoCanPlay(video, canvas, context, w, h));
 
-            canvas.addEventListener("click" , (event)=>{
-                if(insertText){
+            canvas.addEventListener("click", (event)=> {
+                const insertText = getInsertText()
+                if (insertText) {
+                    console.log(insertText)
                     addNewText(event.offsetX, event.offsetY, "New Text");
+                    setInsertText(false)
                 }
             })
 
@@ -74,75 +77,99 @@ const Video = () => {
         effect()
     }, [file])
 
-    const videoCanPlay = (video, canvas, context , w , h) => {
-      
-       
+
+    useEffect(() => {
+
+        console.log(texts)
+        texts.map(text => {
+
+            const input = document.createElement("div");
+
+            input.setAttribute("contenteditable", "true");
+            input.innerText = text.text;
+
+            const styling = JSON.stringify(text.styles)
+            .replaceAll(",", ";")
+            .replaceAll("{", "")
+            .replaceAll("}", "")
+            .replaceAll('"', "");
+            console.log(`${styling}`)
+
+            input.style.cssText = `${styling}`;
+            videoContainer.current.append(input)
+
+        })
+    }, [texts])
+    const videoCanPlay = (video, canvas, context, w, h) => {
+
+
         fired++;
 
         setDuration(video.duration)
-      
-        if(fired < 4){
+
+        if (fired < 4) {
             video.currentTime = 1;
             video.currentTime = 0;
             context.drawImage(video, 0, 0, w, h);
             videoContainer.current.append(canvas);
 
+           
 
         }
     }
-    const play = ( ) => {
-      
-        if(isPlaying){
+    const play = () => {
+
+        if (isPlaying) {
             //puase
             video.pause()
             setIsPlaying(false)
-        }else{
+        } else {
             //play
             video.play()
             setIsPlaying(true)
         }
-     
-        video.addEventListener('play', function() {
+
+        video.addEventListener('play', function () {
             var $this = this; //cache
             (function loop() {
-              if (!$this.paused && !$this.ended) {
-               
-                context.drawImage(video, 0, 0, w, h);
-                setTimeout(loop, 1000 / 30); // drawing at 30fps
-              }
+                if (!$this.paused && !$this.ended) {
+
+                    context.drawImage(video, 0, 0, w, h);
+                    setTimeout(loop, 1000 / 30); // drawing at 30fps
+                }
             })();
-          }, 0);
-        
-          video.addEventListener('timeupdate', function() {
-          
-            document.getElementById("rang-progress").style.width = ((w / duration) * video.currentTime)  +  "px"
+        }, 0);
+
+        video.addEventListener('timeupdate', function () {
+
+            document.getElementById("rang-progress").style.width = ((w / duration) * video.currentTime) + "px"
             setCurrentTime(video.currentTime)
-          });
-    
+        });
+
     }
     return (
         <>
 
 
             {file.filename && <div id='video-container' ref={videoContainer}>
-                
-                
+
+
                 <div id='rang-container'>
                     <div id="rang">
                         <div id='rang-progress'></div>
                     </div>
 
-                    <IconButton style={{color : "white"}} onClick={play}>
-                      
-                        {isPlaying ? <PauseIcon />:   <PlayIcon></PlayIcon> }
+                    <IconButton style={{ color: "white" }} onClick={play}>
+
+                        {isPlaying ? <PauseIcon /> : <PlayIcon></PlayIcon>}
 
                     </IconButton>
 
-                   <b>{moment.utc(currentTime * 1000).format("HH:mm:ss")} / {moment.utc(duration * 1000).format("HH:mm:ss")}</b>
+                    <b>{moment.utc(currentTime * 1000).format("HH:mm:ss")} / {moment.utc(duration * 1000).format("HH:mm:ss")}</b>
                 </div>
-                </div>}
+            </div>}
 
-           
+
         </>
     )
 }
