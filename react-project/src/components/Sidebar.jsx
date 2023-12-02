@@ -11,6 +11,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 
 //icons
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import TitleIcon from '@mui/icons-material/Title';
 
 //context
 import {TextContext} from "../context/TextContext"
@@ -18,7 +19,7 @@ import {TextContext} from "../context/TextContext"
 
 const Sidebar = () => {
 
-const { setFile} = useContext(TextContext)
+const { setFile , setInsertText } = useContext(TextContext)
 
     const [progress, setProgress] = React.useState(0);
     const uploadRef = React.useRef();
@@ -64,6 +65,10 @@ const { setFile} = useContext(TextContext)
 
     };
 
+    const addText = () => {
+        setInsertText(true)
+    }
+
     return (
         <div id='sidebar'>
 
@@ -81,11 +86,11 @@ const { setFile} = useContext(TextContext)
                     </MenuItem>
                     <input type="file" name="file" hidden ref={uploadRef} onChange={UploadFile} />
                     {progress > 0 && <LinearProgress variant="determinate" value={progress} />}
-                    <MenuItem>
+                    <MenuItem onClick={addText}>
                         <ListItemIcon>
-                            <FileUploadIcon fontSize="small" />
+                            <TitleIcon fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText>Open Video</ListItemText>
+                        <ListItemText>ADD Text</ListItemText>
 
 
                     </MenuItem>

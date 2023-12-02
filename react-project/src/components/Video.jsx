@@ -16,7 +16,7 @@ let fired = 0;
 const Video = () => {
 
    
-    const { file , context , w ,  h  ,  setH, setW ,   setContext , video , setVideo } = useContext(TextContext)
+    const { file , context , w ,  h  ,  setH, setW ,   setContext , video , setVideo , insertText , addNewText } = useContext(TextContext)
 
     const videoContainer = useRef()
 
@@ -63,6 +63,11 @@ const Video = () => {
            setVideo(video)
             video.addEventListener("canplay", () => videoCanPlay(video, canvas, context , w ,h));
 
+            canvas.addEventListener("click" , (event)=>{
+                if(insertText){
+                    addNewText(event.offsetX, event.offsetY, "New Text");
+                }
+            })
 
         }
 
