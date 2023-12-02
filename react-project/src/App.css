@@ -1,21 +1,37 @@
-body{
+body {
   margin: 0;
- 
+  width: 100vw;
+  height: 100vh;
 }
 .color-container {
- 
- position: relative;
- display: inline-block;
+  position: relative;
+  display: inline-block;
 }
-#color-picker {
+.color-container #color-picker {
   position: absolute;
 }
 
 .background-container {
-  
   position: relative;
   display: inline-block;
- }
- #background-picker {
-   position: absolute;
- }
+}
+.background-container #background-picker {
+  position: absolute;
+}
+
+#navbar {
+  height: 50px;
+}
+
+#content {
+  display: flex;
+}
+#sidebar {
+  width: 200px;
+  height: calc(100vh - 50px);
+}
+
+#video {
+  display: inline-block;
+  border: 1px solid red;
+}

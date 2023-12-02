@@ -21,7 +21,7 @@ exports.upload = (req, res) => {
       let newPath = path.join(__dirname, "..", "uploads", newName);
       let rawData = fs.readFileSync(file.filepath);
 
-      console.log(file)
+      
       fs.writeFile(newPath, rawData, function (err) {
         if (err) console.log(err);
         fs.unlink(file.filepath, (err) => {
