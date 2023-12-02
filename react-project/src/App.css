@@ -31,7 +31,20 @@ body {
   height: calc(100vh - 50px);
 }
 
-#video {
+#video-container {
   display: inline-block;
   border: 1px solid red;
+  position: relative;
+}
+#video-container #rang-container {
+  position: absolute;
+  bottom: 150px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  width: 100%;
+}
+#video-container #rang-container #rang
+{
+  background-color: gray;
+  height: 3px;
 }

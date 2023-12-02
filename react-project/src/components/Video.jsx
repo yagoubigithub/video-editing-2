@@ -1,8 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
+//icons
+import PlayIcon from '@mui/icons-material/PlayArrow';
 
 //context
 import { TextContext } from "../context/TextContext"
+import { IconButton } from '@mui/material';
+
 
 let fired = 0;
 
@@ -22,6 +26,11 @@ const Video = () => {
 
                 return;
             };
+
+            console.log(document.getElementById("video"))
+            if(document.getElementById("video")){
+                document.removeChild(document.getElementById("video"))
+            }
 
             let videoUrl = `${process.env.REACT_APP_BASE_URL}/api/videos/uploads/${file.filename}/${file.type.split("/")[1]
                 }`;
@@ -59,12 +68,28 @@ const Video = () => {
             video.currentTime = 0;
             context.drawImage(video, 0, 0, w, h);
             videoContainer.current.append(canvas);
+
+
         }
     }
     return (
         <>
+        
 
-            {file.filename && <div id='video' ref={videoContainer}></div>}
+            {file.filename && <div id='video-container' ref={videoContainer}>
+                
+                
+                <div id='rang-container'>
+                    <div id="rang"></div>
+
+                    <IconButton style={{color : "white"}}>
+                        <PlayIcon></PlayIcon>
+
+                    </IconButton>
+
+                   <b>0:01 / 12:03</b>
+                </div>
+                </div>}
 
            
         </>
