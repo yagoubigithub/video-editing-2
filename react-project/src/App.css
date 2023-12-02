@@ -38,13 +38,20 @@ body {
 }
 #video-container #rang-container {
   position: absolute;
-  bottom: 150px;
-  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 100px;
+  background-color: rgba(0, 0, 0, 1);
   color: white;
   width: 100%;
+  height: 50px;
 }
 #video-container #rang-container #rang
 {
   background-color: gray;
-  height: 3px;
+  height: 5px;
+}
+
+#video-container #rang-container #rang #rang-progress {
+  background-color: red;
+  height: 5px;
+  width: 0;
 }
