@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import moment from 'moment';
+import { fabric } from "fabric";
+
 
 //icons
 import PlayIcon from '@mui/icons-material/PlayArrow';
@@ -16,7 +18,7 @@ let fired = 0;
 const Video = () => {
 
 
-    const { file, context, w, h, setH, setW, setContext, video, setVideo ,setInsertText  ,getInsertText, addNewText, texts } = useContext(TextContext)
+    const { file, context, w, h, setH, setW, setContext, video, setVideo, setInsertText, getInsertText, addNewText, texts } = useContext(TextContext)
 
     const videoContainer = useRef()
 
@@ -34,7 +36,7 @@ const Video = () => {
                 return;
             };
 
-            console.log(document.getElementById("video"))
+           
             if (document.getElementById("video")) {
                 document.removeChild(document.getElementById("video"))
             }
@@ -50,6 +52,7 @@ const Video = () => {
 
             video.id = "video"
             let canvas = document.createElement("canvas");
+            let tempCanvas = document.createElement("canvas");
             let context = canvas.getContext("2d");
 
             setContext(context)
@@ -60,15 +63,30 @@ const Video = () => {
             setH(h)
             canvas.width = w;
             canvas.height = h;
-            setVideo(video)
-            video.addEventListener("canplay", () => videoCanPlay(video, canvas, context, w, h));
+            tempCanvas.width = w;
+            tempCanvas.height = h;
+            videoContainer.current.style.width = w +  "px"
+            videoContainer.current.style.height = h +  "px"
+            tempCanvas.id = "tempCanvas"
+            tempCanvas.className = "tempCanvas";
 
-            canvas.addEventListener("click", (event)=> {
+            
+            
+            
+            
+            setVideo(video)
+            video.addEventListener("canplay", () => videoCanPlay(video, canvas, context, w, h , tempCanvas));
+
+            tempCanvas.addEventListener("click", (event) => {
                 const insertText = getInsertText()
                 if (insertText) {
-                    console.log(insertText)
+                   
+                  
+                      
+
                     addNewText(event.offsetX, event.offsetY, "New Text");
                     setInsertText(false)
+                    
                 }
             })
 
@@ -79,28 +97,63 @@ const Video = () => {
 
 
     useEffect(() => {
+        if(document.getElementsByClassName("canvas-container")[0])
+        videoContainer.current.removeChild(document.getElementsByClassName("canvas-container")[0])
+      
+        if(!videoContainer.current) return;
+        let tempCanvas = document.createElement("canvas");
+        tempCanvas.width = w;
+        tempCanvas.height = h;
+        tempCanvas.id = "tempCanvas";
+        tempCanvas.className = "tempCanvas"
+        
+        tempCanvas.addEventListener("click", (event) => {
+            const insertText = getInsertText()
+            if (insertText) {
+                
+              
+                  
 
-        console.log(texts)
+                addNewText(event.offsetX, event.offsetY, "New Text");
+                setInsertText(false)
+                
+            }
+        })
+        videoContainer.current.append(tempCanvas)
+        window.tempCanvas = new fabric.Canvas('tempCanvas');
         texts.map(text => {
 
-            const input = document.createElement("div");
+            // const input = document.createElement("div");
 
-            input.setAttribute("contenteditable", "true");
-            input.innerText = text.text;
+            // input.setAttribute("contenteditable", "true");
+            // input.setAttribute("draggable", "true")
+            // input.innerText = text.text;
 
-            const styling = JSON.stringify(text.styles)
-            .replaceAll(",", ";")
-            .replaceAll("{", "")
-            .replaceAll("}", "")
-            .replaceAll('"', "");
-            console.log(`${styling}`)
+            // const styling = JSON.stringify(text.styles)
+            //     .replaceAll(",", ";")
+            //     .replaceAll("{", "")
+            //     .replaceAll("}", "")
+            //     .replaceAll('"', "");
+            // console.log(`${styling}`)
 
-            input.style.cssText = `${styling}`;
-            videoContainer.current.append(input)
+            // input.style.cssText = `${styling}`;
+            // videoContainer.current.append(input)
+            
+
+           const fabricText = new fabric.IText('Tap and Type',text.styles)
+            
+
+            window.tempCanvas.getObjects();
+            window.tempCanvas.add(fabricText);
+            window.tempCanvas.selection = false;
+            window.tempCanvas.renderAll();
+            window.tempCanvas.calcOffset();
+              
 
         })
+
     }, [texts])
-    const videoCanPlay = (video, canvas, context, w, h) => {
+    const videoCanPlay = (video, canvas, context, w, h , tempCanvas) => {
 
 
         fired++;
@@ -112,8 +165,8 @@ const Video = () => {
             video.currentTime = 0;
             context.drawImage(video, 0, 0, w, h);
             videoContainer.current.append(canvas);
+            videoContainer.current.append(tempCanvas);
 
-           
 
         }
     }

@@ -38,7 +38,7 @@ body {
 }
 #video-container #rang-container {
   position: absolute;
-  bottom: 100px;
+  bottom: -50px;
   background-color: rgba(0, 0, 0, 1);
   color: white;
   width: 100%;
@@ -48,6 +48,14 @@ body {
 {
   background-color: gray;
   height: 5px;
+}
+#video-container canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#canvas-container {
+  position: absolute;
 }
 
 #video-container #rang-container #rang #rang-progress {

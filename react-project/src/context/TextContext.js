@@ -15,6 +15,25 @@ export const TextProvider = ({ children }) => {
 
   const setInsertText = (insertText) =>{
 
+
+   setTimeout(()=>{
+    const elemts = document.getElementsByClassName("tempCanvas");
+
+   
+    [...elemts].forEach(el => {
+      
+      if(!el.classList.contains("upper-canvas") && !el.classList.contains("lower-canvas")){
+       
+        if(insertText){
+          el.style.zIndex = 999;
+        }else {
+          el.style.zIndex = -999;
+        }
+      }
+    });
+   }, 200)
+   
+ 
     localStorage.setItem("insertText" , JSON.stringify(insertText))
   }
 
@@ -30,22 +49,22 @@ export const TextProvider = ({ children }) => {
     const initData = {
       text,
       styles : {
-        'background-color' : "#ffffff00",
-        'border' : "3px dashed white",
-        'color' :  "#aa0000",
-        'cursor' :  "move",
-         'font-family':  "Croissant One",
-        'position':  "absolute",
-        'width':   "fit-content",
-        'z-index' :  "998",
-        'font-size' : '10',
-        'left'  : x + "px",
-        'top' : y + "px",
-        'outline' :"none",
-        'text-align' : "center",
-        'white-space' : "nowrap",
-        'display' : "inline-block",
-        'word-break' : "keep-all"
+        backgroundColor : "#ffffff00",
+       
+        color :  "#aa0000",
+        cursor :  "move",
+         fontFamily:  "Croissant One",
+        position:  "absolute",
+        width:   "fit-content",
+        zIndex :  "998",
+        fontSize : 35,
+        left  : x ,
+        top : y ,
+        outline :"none",
+        textAlign : "center",
+        whiteSpace : "nowrap",
+        display : "inline-block",
+        wordBreak : "keep-all"
 
       },
     
