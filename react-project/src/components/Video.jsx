@@ -18,7 +18,7 @@ let fired = 0;
 const Video = () => {
 
 
-    const { file, context, w, h, setH, setW, setContext, video, setVideo, setInsertText, getInsertText, addNewText, texts } = useContext(TextContext)
+    const { file, context, w, h, setH, setW, setContext, video, setVideo, setInsertText, getInsertText, addNewText, texts, setActive , setFabrixTextJSON } = useContext(TextContext)
 
     const videoContainer = useRef()
 
@@ -28,7 +28,9 @@ const Video = () => {
 
     useEffect(() => {
 
+        console.log(file)
         async function effect() {
+
 
             if (!file.filename) {
                 //stop loading
@@ -36,9 +38,20 @@ const Video = () => {
                 return;
             };
 
-           
+            fired = 0;
+
             if (document.getElementById("video")) {
                 document.removeChild(document.getElementById("video"))
+            }
+            if (document.getElementById("canvas-container")) {
+                videoContainer.current.removeChild(document.getElementById("canvas-container"))
+            }
+
+            if (document.getElementById("canvas")) {
+                videoContainer.current.removeChild(document.getElementById("canvas"))
+            }
+            if (document.getElementById("tempCanvas")) {
+                videoContainer.current.removeChild(document.getElementById("tempCanvas"))
             }
 
             let videoUrl = `${process.env.REACT_APP_BASE_URL}/api/videos/uploads/${file.filename}/${file.type.split("/")[1]
@@ -63,30 +76,31 @@ const Video = () => {
             setH(h)
             canvas.width = w;
             canvas.height = h;
+            canvas.id = "canvas"
             tempCanvas.width = w;
             tempCanvas.height = h;
-            videoContainer.current.style.width = w +  "px"
-            videoContainer.current.style.height = h +  "px"
+            videoContainer.current.style.width = w + "px"
+            videoContainer.current.style.height = h + "px"
             tempCanvas.id = "tempCanvas"
             tempCanvas.className = "tempCanvas";
 
-            
-            
-            
-            
+
+
+
+
             setVideo(video)
-            video.addEventListener("canplay", () => videoCanPlay(video, canvas, context, w, h , tempCanvas));
+            video.addEventListener("canplay", () => videoCanPlay(video, canvas, context, w, h, tempCanvas));
 
             tempCanvas.addEventListener("click", (event) => {
                 const insertText = getInsertText()
                 if (insertText) {
-                   
-                  
-                      
+
+
+
 
                     addNewText(event.offsetX, event.offsetY, "New Text");
                     setInsertText(false)
-                    
+
                 }
             })
 
@@ -97,26 +111,26 @@ const Video = () => {
 
 
     useEffect(() => {
-        if(document.getElementsByClassName("canvas-container")[0])
-        videoContainer.current.removeChild(document.getElementsByClassName("canvas-container")[0])
-      
-        if(!videoContainer.current) return;
+        if (document.getElementsByClassName("canvas-container")[0])
+            videoContainer.current.removeChild(document.getElementsByClassName("canvas-container")[0])
+
+        if (!videoContainer.current) return;
         let tempCanvas = document.createElement("canvas");
         tempCanvas.width = w;
         tempCanvas.height = h;
         tempCanvas.id = "tempCanvas";
         tempCanvas.className = "tempCanvas"
-        
+
         tempCanvas.addEventListener("click", (event) => {
             const insertText = getInsertText()
             if (insertText) {
-                
-              
-                  
+
+
+
 
                 addNewText(event.offsetX, event.offsetY, "New Text");
                 setInsertText(false)
-                
+
             }
         })
         videoContainer.current.append(tempCanvas)
@@ -138,24 +152,52 @@ const Video = () => {
 
             // input.style.cssText = `${styling}`;
             // videoContainer.current.append(input)
-            
 
-           const fabricText = new fabric.IText('Tap and Type',text.styles)
-            
+            let s = {...text.styles}
 
-            window.tempCanvas.getObjects();
+           
+            const fabricText = new fabric.IText(text.text, s)
+
+
+            
             window.tempCanvas.add(fabricText);
-            window.tempCanvas.selection = false;
-            window.tempCanvas.renderAll();
-            window.tempCanvas.calcOffset();
-              
+          
 
+           
+
+            fabricText.on('mousedown', function(e) { 
+                // e.target should be the circle
+                setActive(text.id);
+                
+            });
+        
+            fabricText.on("changed" , (e)=>{
+              const fabricTextJson =   fabricText.toJSON() 
+
+              
+              setFabrixTextJSON(fabricTextJson,text.id)
+            })
+
+            fabricText.on("rotating" , (e)=>{
+                const fabricTextJson =   fabricText.toJSON() 
+                setFabrixTextJSON(fabricTextJson,text.id)
+            })
+            fabricText.on("moving" , (e)=>{
+                const fabricTextJson =   fabricText.toJSON()
+                setFabrixTextJSON(fabricTextJson,text.id)
+            })
+
+            fabricText.on("scaling" , (e)=>{
+                const fabricTextJson =   fabricText.toJSON() 
+                setFabrixTextJSON(fabricTextJson,text.id)
+            })
         })
 
     }, [texts])
-    const videoCanPlay = (video, canvas, context, w, h , tempCanvas) => {
+    const videoCanPlay = (video, canvas, context, w, h, tempCanvas) => {
 
 
+        console.log("can")
         fired++;
 
         setDuration(video.duration)
