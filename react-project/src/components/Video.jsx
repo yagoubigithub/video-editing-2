@@ -294,6 +294,64 @@ const Video = () => {
             
         }
     }
+
+    const timing_left_mousedown  = ( e  , id,orignal_from , orignal_to) => {
+        e.preventDefault();
+        const timing = document.getElementById(`timing-${id}`);
+        const time = document.getElementById(`time-${id}`);
+
+
+       let original_width = parseFloat(
+          getComputedStyle(timing, null).getPropertyValue("width").replace("px", "")
+        );
+       let  original_x = timing.getBoundingClientRect().left;
+    
+       let  original_mouse_x = e.pageX;
+
+       let from = 0;
+       let to = 3;
+        
+    window.addEventListener("mousemove", resize);
+    window.addEventListener("mouseup", () => {
+      orignal_from = from;
+      orignal_to = to;
+      window.removeEventListener("mousemove", resize);
+    });
+
+    function resize(e) {
+        if (e.pageX - original_mouse_x < 0) {
+          return;
+        }
+
+
+        if (original_width - (e.pageX - original_mouse_x) <= minwidth) return;
+
+        timing.style.width = original_width - (e.pageX - original_mouse_x) + "px";
+  
+        timing.style.left =  ((e.pageX  -  original_mouse_x) + orignal_from * one_second)+ "px";
+  
+        from = orignal_from + (e.pageX - original_mouse_x) / one_second;
+
+
+        let _texts = texts.map((text) => {
+            if (text.id === id) {
+              time.innerHTML =
+                new Date(from * 1000).toISOString().substring(14, 19) +
+                "---" +
+                new Date(text.to * 1000).toISOString().substring(14, 19);
+              return {
+                ...text,
+                from,
+              };
+            }
+            return text;
+          });
+
+
+          setTexts([..._texts])
+    }
+
+    }
     return (
         <div id='Video'>
 
@@ -326,7 +384,7 @@ const Video = () => {
                                left : one_second * text.from,
                                top : index  * 54
                                }}>
-                                <div className="timing-left">
+                                <div className="timing-left" onMouseDown={(event)=>timing_left_mousedown(event , text.id , text.from, text.to)}>
 
                                 </div>
 

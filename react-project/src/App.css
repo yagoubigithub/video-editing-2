@@ -51,6 +51,7 @@ body {
   background-color: #202024;
   color: white;
   position: relative;
+  
   overflow-y: auto;
   scrollbar-width: thin;
   height: 300px;
