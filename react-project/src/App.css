@@ -6,9 +6,11 @@ body {
 .color-container {
   position: relative;
   display: inline-block;
+
 }
 .color-container #color-picker {
   position: absolute;
+  z-index: 1000;
 }
 
 .background-container {
@@ -17,6 +19,7 @@ body {
 }
 .background-container #background-picker {
   position: absolute;
+  z-index: 1000;
 }
 
 #navbar {
@@ -31,13 +34,31 @@ body {
 }
 #sidebar {
   width: 200px;
+  max-width: 200px;
   height: calc(100vh - 50px);
 }
 
+#Video {
+  display: flex;
+  flex-direction: column;
+}
 #video-container {
   display: inline-block;
-  border: 1px solid red;
   position: relative;
+}
+#Video #timeline {
+  margin-top: 50px;
+  background-color: #202024;
+  color: white;
+  position: relative;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  height: 300px;
+}
+.box { 
+  display: inline-block;
+  padding  : 5px;
+  background-color: green;
 }
 #video-container #rang-container {
   position: absolute;

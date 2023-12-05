@@ -12,8 +12,6 @@ export const TextProvider = ({ children }) => {
   const [h, setH] = useState(0);
   const [texts, setTexts] = useState([]);
 
-
-
   const [active, setActive] = useState("");
 
   const setInsertText = (insertText) => {
@@ -68,21 +66,12 @@ export const TextProvider = ({ children }) => {
       id: uuidv4(),
     };
 
-
     let textJson = {};
     if (localStorage.getItem("textJson")) {
-
-      textJson = {...JSON.parse(localStorage.getItem("textJson"))};
-      
+      textJson = { ...JSON.parse(localStorage.getItem("textJson")) };
     }
     const _texts = [...texts].map((text) => {
       if (textJson[text.id]) {
-        console.log( {
-          ...text,
-          styles: {
-            ...textJson[text.id],
-          },
-        })
         return {
           ...text,
           styles: {
@@ -105,7 +94,6 @@ export const TextProvider = ({ children }) => {
         [id]: {
           ...fabricTextJson,
         },
-       
       };
 
       localStorage.setItem("textJson", JSON.stringify(textJson));
@@ -121,6 +109,63 @@ export const TextProvider = ({ children }) => {
     }
   };
 
+  const setStyle = (style) => {
+    let textJson = {};
+    if (localStorage.getItem("textJson")) {
+      textJson = { ...JSON.parse(localStorage.getItem("textJson")) };
+    }
+
+    const _texts = [...texts].map((text) => {
+      if (text.id === active) {
+        if (textJson[active]) {
+          console.log({
+            ...text,
+            styles: {
+              ...text.styles,
+              ...textJson[text.id],
+              ...style,
+            },
+          });
+          return {
+            ...text,
+            styles: {
+              ...text.styles,
+              ...textJson[text.id],
+              ...style,
+            },
+          };
+        }
+        return {
+          ...text,
+          styles: {
+            ...text.styles,
+
+            ...style,
+          },
+        };
+      }
+
+      return text;
+    });
+
+    setInsertText(false);
+
+    setTexts([..._texts]);
+  };
+
+  const onResize = (size, id) => {
+    console.log(size);
+
+    const _texts = [...texts].map((text) => {
+      if (text.id === id) {
+      
+      }
+      return text;
+    });
+    setInsertText(false);
+
+    setTexts([..._texts]);
+  };
   return (
     <TextContext.Provider
       value={{
@@ -142,6 +187,8 @@ export const TextProvider = ({ children }) => {
         active,
         setActive,
         setFabrixTextJSON,
+        setStyle,
+        onResize,
       }}
       displayName="TextContext"
     >

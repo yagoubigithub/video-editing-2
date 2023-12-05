@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 
 //mui
@@ -16,15 +16,41 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 
 
+//context
+import { TextContext } from "../context/TextContext"
+
+
 const fonts = ['Croissant One', 'Fuggles', 'Bebas Neue', 'Pacifico', 'Great Vibes', 'Yellowtail', 'Philosopher', 'Passion One', 'Kaushan Script']
 const sizes = [10, 14, 18, 22, 25]
 const Navbar = () => {
+
+    const { setStyle } = useContext(TextContext)
+
     const [openColor, setOpenColor] = useState(false);
     const [openBackground, setOpenBackground] = useState(false);
 
-    const [colorhexa, setColorHexa] = useState("#ffffff00");
+    const [colorhexa, setColorHexa] = useState("#000000ff");
     const [backgroundhexa, setBackgroundHexa] = useState("#ffffff00");
 
+
+    const [fontFamily, setFontFamily] = useState(fonts[0]);
+    const [fontSize, setFontSize] = useState(sizes[0]);
+    const handleChange = (name, value) => {
+
+        if(name === "color"){
+            setStyle( {
+                [name] : value,
+                fill : value
+            })
+        }else{
+            setStyle( {
+                [name] : value
+            })
+        }
+      
+
+
+    }
     return (
         <div
 
@@ -35,9 +61,10 @@ const Navbar = () => {
             <Select
                 labelId="fonts"
                 id="fonts-select"
-                value={fonts[0]}
+                value={fontFamily}
                 label="Fonts"
-                style={{ fontFamily: fonts[0] }}
+                style={{ fontFamily }}
+                onChange={(e) => { handleChange("fontFamily", e.target.value); setFontFamily(e.target.value) }}
 
             >
 
@@ -51,9 +78,9 @@ const Navbar = () => {
             <Select
                 labelId="size"
                 id="size-select"
-                value={sizes[0]}
+                value={fontSize}
                 label="Size"
-
+                onChange={(e) => { handleChange("fontSize", e.target.value); setFontSize(e.target.value) }}
 
             >
 
@@ -83,6 +110,7 @@ const Navbar = () => {
                         {(color) => {
 
                             setColorHexa(color.hexa);
+                            handleChange("color", color.hexa)
                         }} />
                 </ClickAwayListener>}
             </div>
@@ -96,16 +124,17 @@ const Navbar = () => {
 
 
                     >
-                          <Sketch
+                        <Sketch
                             id='background-picker'
                             color={backgroundhexa}
                             onChange={(color) => {
 
                                 setBackgroundHexa(color.hexa);
+                                handleChange("backgroundColor", color.hexa)
                             }} />
-                            
-                            
-                            </ClickAwayListener>
+
+
+                    </ClickAwayListener>
                 }
             </div>
 

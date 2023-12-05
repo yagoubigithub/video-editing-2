@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import moment from 'moment';
 import { fabric } from "fabric";
 
+import { Resizable } from 're-resizable';
+
 
 //icons
 import PlayIcon from '@mui/icons-material/PlayArrow';
@@ -13,16 +15,19 @@ import { TextContext } from "../context/TextContext"
 import { IconButton } from '@mui/material';
 
 
-let fired = 0;
+let fired = 0,
+ minwidth = 100;
 
 const Video = () => {
 
 
-    const { file, context, w, h, setH, setW, setContext, video, setVideo, setInsertText, getInsertText, addNewText, texts, setActive , setFabrixTextJSON } = useContext(TextContext)
+    const { file, context, w, h, setH, setW, setContext, video, setVideo, setInsertText, getInsertText, addNewText, texts,setTexts, setActive, setFabrixTextJSON, onResize } = useContext(TextContext)
 
     const videoContainer = useRef()
 
     const [isPlaying, setIsPlaying] = useState(false)
+
+    const [one_second, setOneSecond] = useState(1)
     const [currentTime, setCurrentTime] = useState(0)
     const [duration, setDuration] = useState(0)
 
@@ -70,7 +75,7 @@ const Video = () => {
 
             setContext(context)
 
-            let w = document.body.getBoundingClientRect().width - 200;
+            let w = document.body.getBoundingClientRect().width - 250;
             let h = document.body.getBoundingClientRect().height - 200;
             setW(w)
             setH(h)
@@ -114,6 +119,9 @@ const Video = () => {
         if (document.getElementsByClassName("canvas-container")[0])
             videoContainer.current.removeChild(document.getElementsByClassName("canvas-container")[0])
 
+        if (document.getElementById("tempCanvas")) {
+            document.getElementById("tempCanvas").style.zIndex = 999;
+        }
         if (!videoContainer.current) return;
         let tempCanvas = document.createElement("canvas");
         tempCanvas.width = w;
@@ -153,45 +161,46 @@ const Video = () => {
             // input.style.cssText = `${styling}`;
             // videoContainer.current.append(input)
 
-            let s = {...text.styles}
+            let s = { ...text.styles }
 
-           
+
             const fabricText = new fabric.IText(text.text, s)
 
 
-            
+
             window.tempCanvas.add(fabricText);
-          
 
-           
 
-            fabricText.on('mousedown', function(e) { 
+
+
+            fabricText.on('mousedown', function (e) {
                 // e.target should be the circle
                 setActive(text.id);
-                
+
             });
-        
-            fabricText.on("changed" , (e)=>{
-              const fabricTextJson =   fabricText.toJSON() 
 
-              
-              setFabrixTextJSON(fabricTextJson,text.id)
+            fabricText.on("changed", (e) => {
+                const fabricTextJson = fabricText.toJSON()
+
+
+                setFabrixTextJSON(fabricTextJson, text.id)
             })
 
-            fabricText.on("rotating" , (e)=>{
-                const fabricTextJson =   fabricText.toJSON() 
-                setFabrixTextJSON(fabricTextJson,text.id)
+            fabricText.on("rotating", (e) => {
+                const fabricTextJson = fabricText.toJSON()
+                setFabrixTextJSON(fabricTextJson, text.id)
             })
-            fabricText.on("moving" , (e)=>{
-                const fabricTextJson =   fabricText.toJSON()
-                setFabrixTextJSON(fabricTextJson,text.id)
+            fabricText.on("moving", (e) => {
+                const fabricTextJson = fabricText.toJSON()
+                setFabrixTextJSON(fabricTextJson, text.id)
             })
 
-            fabricText.on("scaling" , (e)=>{
-                const fabricTextJson =   fabricText.toJSON() 
-                setFabrixTextJSON(fabricTextJson,text.id)
+            fabricText.on("scaling", (e) => {
+                const fabricTextJson = fabricText.toJSON()
+                setFabrixTextJSON(fabricTextJson, text.id)
             })
         })
+
 
     }, [texts])
     const videoCanPlay = (video, canvas, context, w, h, tempCanvas) => {
@@ -200,6 +209,7 @@ const Video = () => {
         console.log("can")
         fired++;
 
+        setOneSecond( w / video.duration)
         setDuration(video.duration)
 
         if (fired < 4) {
@@ -242,8 +252,50 @@ const Video = () => {
         });
 
     }
+
+
+    const timing_right_mousedown  = ( e  , id) => {
+        e.preventDefault();
+        window.addEventListener("mousemove", resize);
+        window.addEventListener("mouseup", () => {
+          window.removeEventListener("mousemove", resize);
+        });
+
+        function resize(e) {
+            if (w - e.pageX + 200 <= 0) {
+              return;
+            }
+
+            const timing = document.getElementById(`timing-${id}`);
+            const time = document.getElementById(`time-${id}`);
+           
+            if (e.pageX - timing.getBoundingClientRect().left <= minwidth) return;
+
+            timing.style.width = e.pageX - timing.getBoundingClientRect().left + "px";
+      
+            let to = (e.pageX - 200) / one_second;
+
+            let _texts = texts.map((text) => {
+                if (text.id === id) {
+                  time.innerHTML =
+                    new Date(text.from * 1000).toISOString().substring(14, 19) +
+                    "---" +
+                    new Date(to * 1000).toISOString().substring(14, 19);
+                  return {
+                    ...text,
+                    to,
+                  };
+                }
+                return text;
+              });
+
+              setTexts([..._texts])
+
+            
+        }
+    }
     return (
-        <>
+        <div id='Video'>
 
 
             {file.filename && <div id='video-container' ref={videoContainer}>
@@ -264,8 +316,34 @@ const Video = () => {
                 </div>
             </div>}
 
+            <div id="timeline">
+                <div id="timeline-container">
+                    {
+                        texts.map((text , index) => {
+                            return (
+                               <div className="timing" id={`timing-${text.id}`} style={{
+                               width  :  one_second * (text.to - text.from),
+                               left : one_second * text.from,
+                               top : index  * 54
+                               }}>
+                                <div className="timing-left">
 
-        </>
+                                </div>
+
+                                <div className="time" id={`time-${text.id}`}>
+                                    <span>
+                                    {new Date(text.from * 1000).toISOString().substring(14, 19) }/{new Date(text.to * 1000).toISOString().substring(14, 19) }
+                                    </span>
+                                </div>
+                                <div className="timing-right" onMouseDown={(event)=>timing_right_mousedown(event , text.id)}></div>
+                               </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+
+        </div>
     )
 }
 

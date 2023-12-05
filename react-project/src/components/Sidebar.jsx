@@ -107,7 +107,7 @@ const Sidebar = () => {
     return (
         <div id='sidebar'>
 
-            <Paper sx={{ width: '100%', height: "100%" }}>
+            <Paper sx={{ maxWidth: '100%', height: "100%" }}>
 
 
                 <MenuList>
