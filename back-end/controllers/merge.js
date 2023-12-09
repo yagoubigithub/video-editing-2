@@ -7,13 +7,14 @@ const path = require("path");
 exports.merge = (req, res) => {
   const { file, data } = req.body;
 
+ 
   fs.unlink("./output.mp4", (err) => {
     if (err) console.log(err);
     let cmd_input = []
     let cmd_filter_complex = []
     const tempImages = [];
     data.map((text, index) => {
-      const { from, to, imgBase64, left, top } = text;
+      const { from, to, imgBase64, left, top , width , height } = text;
       const base64Data = imgBase64.replace(/^data:image\/png;base64,/, "");
       const imageName =`image-${index}.png`;
       cmd_input.push( `-i`)
@@ -27,6 +28,20 @@ exports.merge = (req, res) => {
           if (err) {
             console.log(err);
           }
+          const args = [
+            "-i",
+            `./temps/${imageName}`,
+            "-vf",
+            `scale=${width}:${height}`,
+            `./temps/${imageName}`
+
+
+
+          ]
+
+         
+        //  spawn("ffmpeg", args);
+        
   
           tempImages.push(`image-${index}.png`);
         }
@@ -35,11 +50,11 @@ exports.merge = (req, res) => {
    
    
     const cmd = [  "-i",
-    `./back-end/uploads/${file.filename}`,...cmd_input ,  "-filter_complex",  Array.from(cmd_filter_complex.join(" ")).slice(0, -1).join("")  , "-map" , `[v${data.length}]` , "-map" , "0:a" ,  "output.mp4",
+    `./back-end/uploads/${file.filename}`,...cmd_input ,  "-filter_complex",  Array.from(cmd_filter_complex.join(" ")).slice(0, -1).join("")  , "-map" , `[v${data.length}]` , "-map" , "0:a?" ,  "output.mp4",
     "-progress",
     "pipe:1"]
   
-    console.log(cmd.join(" "))
+    //console.log(cmd.join(" "))
     const cmd_ffprobe = `ffprobe -v error -select_streams v:0 -count_packets -show_entries stream=nb_read_packets -of csv=p=0 ./back-end/uploads/${file.filename}`;
   
     
@@ -54,7 +69,7 @@ exports.merge = (req, res) => {
   
       const ffmpeg = spawn("ffmpeg", cmd);
       ffmpeg.stdout.on("data", (data) => {
-        console.log(`stdout: ${data}`);
+     //  console.log(`stdout: ${data}`);
       });
   
       ffmpeg.on("close", (code) => {
@@ -63,7 +78,20 @@ exports.merge = (req, res) => {
       });
   
       ffmpeg.stderr.on("data", (data) => {
-        console.log(data.toString());
+        if(data.toString().startsWith("frame=")){
+          try {
+            const frameNumber = parseInt(data.toString().split(" ").filter(t=>t !== "")[1]) ;
+
+            
+
+           // res.status(200).json({progress :frameNumber  / frameNumbers * 100 })
+            
+          } catch (error) {
+            
+          }
+       
+        }
+        
   
       })
   

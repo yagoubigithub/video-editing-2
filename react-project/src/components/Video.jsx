@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import moment from 'moment';
 import { fabric } from "fabric";
 
-import { Resizable } from 're-resizable';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 
 //icons
@@ -21,7 +21,7 @@ let fired = 0,
 const Video = () => {
 
 
-    const { file, context, w, h, setH, setW, setContext, video, setVideo, setInsertText, getInsertText, addNewText, texts,setTexts, setActive, setFabrixTextJSON, onResize } = useContext(TextContext)
+    const { file, context, w, h, setH, setW, setContext, video, setVideo, setInsertText, getInsertText, addNewText, texts,setTexts, setActive, setFabrixTextJSON, download } = useContext(TextContext)
 
     const videoContainer = useRef()
 
@@ -56,7 +56,13 @@ const Video = () => {
                 videoContainer.current.removeChild(document.getElementById("canvas"))
             }
             if (document.getElementById("tempCanvas")) {
-                videoContainer.current.removeChild(document.getElementById("tempCanvas"))
+               
+                try {
+                    videoContainer.current.removeChild(document.getElementById("tempCanvas"))
+                } catch (error) {
+                    console.log(error)
+                }
+                
             }
 
             let videoUrl = `${process.env.REACT_APP_BASE_URL}/api/videos/uploads/${file.filename}/${file.type.split("/")[1]
@@ -164,18 +170,24 @@ const Video = () => {
             let s = { ...text.styles }
 
 
-            const fabricText = new fabric.IText(text.text, s)
+            const tempFabrixText = new fabric.IText(text.text, s)
 
 
+            const fabricText = new fabric.IText(text.text, {...tempFabrixText})
+
+
+           
 
             window.tempCanvas.add(fabricText);
 
+           
 
 
 
             fabricText.on('mousedown', function (e) {
                 // e.target should be the circle
                 setActive(text.id);
+                
 
             });
 
@@ -371,9 +383,15 @@ const Video = () => {
                     </IconButton>
 
                     <b>{moment.utc(currentTime * 1000).format("HH:mm:ss")} / {moment.utc(duration * 1000).format("HH:mm:ss")}</b>
+                
+                
+                <IconButton style={{ color: "white" }} onClick={download}>
+
+                    <FileDownloadIcon />
+                </IconButton>
                 </div>
             </div>}
-
+           
             <div id="timeline">
                 <div id="timeline-container">
                     {

@@ -88,3 +88,8 @@ body {
   height: 5px;
   width: 0;
 }
+#progress {
+  width: 100vw;
+  height: 5px;
+  background-color: #28b3d0;
+}

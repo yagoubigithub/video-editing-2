@@ -12,7 +12,7 @@ function App() {
     <div >
       <TextProvider >
         <Navbar />
-
+        <div id="progress"></div>
 
       <div id="content">
       <Sidebar></Sidebar>
