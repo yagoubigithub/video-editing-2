@@ -265,6 +265,7 @@ export const TextProvider = ({ children }) => {
             body: JSON.stringify({
               data,
               file,
+              socketSessionId : localStorage.getItem("thisSessionId")
             }),
           },
           50000
@@ -273,11 +274,15 @@ export const TextProvider = ({ children }) => {
           .then((result) => {
             //  download_btn.innerText = "download";
             if (result.success) {
-              const a = document.createElement("a");
-              document.body.appendChild(a);
-              a.download = "output.mp4";
-              a.href = "http://localhost:3001/download";
-              a.click();
+           
+
+              setTimeout(()=>{
+                const a = document.createElement("a");
+                document.body.appendChild(a);
+                a.download = "output.mp4";
+                a.href = "http://localhost:3001/download";
+                a.click();
+              }, 3000)
             }
           });
       }
