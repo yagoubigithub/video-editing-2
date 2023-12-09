@@ -226,24 +226,9 @@ export const TextProvider = ({ children }) => {
     s = {...s, scaleY :  text.styles.scaleY * scaleW}
 
 
-      /*
-fontSize: 35
-
-height: 39.55
-left:  373.15
-lineHeight:  1.16
-
-scaleX :  1.84 
-scaleY: 1.84
-top: 34.97
-width :169.79
-
-      */
-      console.log(s);
-
       const fabricText = new fabric.Text(text.text, s);
 
-      // zoom(fabricText , 2,2)
+     
       newCanvas.add(fabricText);
 
       const dataURL = newCanvas.toDataURL({
@@ -306,10 +291,7 @@ width :169.79
     });
   };
 
-  const zoom = (text, zX, zY) => {
-    text.setHeight(text.getHeight() * zY);
-    text.setWidth(text.getWidth() * zX);
-  };
+ 
 
   return (
     <TextContext.Provider
