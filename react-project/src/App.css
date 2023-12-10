@@ -2,6 +2,9 @@ body {
   margin: 0;
   width: 100vw;
   height: 100vh;
+
+  font-family: Croissant One;
+
 }
 .color-container {
   position: relative;
@@ -92,4 +95,141 @@ body {
   width: 100vw;
   height: 5px;
   background-color: #28b3d0;
+}
+
+
+.newUser {
+   
+  box-shadow: 0px 0px 15px -10px rgb(0 0 0 / 75%);
+ 
+  
+  flex: 3;
+  padding: 1rem;
+}
+
+.newUserForm {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.newUserItem {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+ 
+  padding: 10px;
+}
+
+.newUserItem > label {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(151, 150, 150);
+}
+
+.newUserItem > input {
+
+  padding: 10px;
+
+
+}
+
+.newUserGender > input {
+  margin-top: 15px;
+}
+
+.newUserGender>label{
+    margin: 10px;
+    font-size: 18px;
+    color: #555;
+
+}
+
+.newUserSelect{
+    height: 40px;
+    border-radius: 5px;
+}
+
+.newUserButton{
+    width: 200px;
+    border: none;
+    background-color: darkblue;
+    color: white;
+    padding: 7px 10px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+.signin {
+    
+  box-shadow: 0px 0px 15px -10px rgb(0 0 0 / 75%);
+  padding: 1rem;
+  flex: 1;
+}
+
+.signinForm {
+  margin-top: 10px;
+}
+
+.signinItem {
+ 
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.signinItem > label {
+  color: gray;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.signinItem > input {
+  padding: 10px;
+}
+
+
+.signinButton {
+  width: 100%;
+  border: none;
+  background-color: darkblue;
+  color: white;
+  padding: 7px 10px;
+  font-weight: 600;
+  border-radius: 10px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.home-container{
+  display: flex;
+  
+  justify-content: center;
+  padding: 0.2rem;
+  gap: 1.5rem;
+  
+  
+}
+
+@media (max-width: 800px) {
+  .home-container {
+    flex-direction: column;
+    padding: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .newUser{
+      padding: 0;
+  }
+  .newUserItem {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+
+
+  }
 }

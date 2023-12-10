@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { fabric } from "fabric";
+import { API } from "../Config";
 
 export const TextContext = createContext();
 
@@ -254,7 +255,7 @@ export const TextProvider = ({ children }) => {
 
       if (count > texts.length - 1) {
         fetch(
-          `http://localhost:3001/api/merge`,
+          `${API}/merge`,
           {
             method: "POST",
             headers: {
