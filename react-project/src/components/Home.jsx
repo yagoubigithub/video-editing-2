@@ -9,7 +9,7 @@ import { Redirect } from "react-router-dom";
 const Home = () => {
   return (
     <div>
-    {isAuthenticated() && <Redirect to="/dashboard" />}
+    {isAuthenticated() && <Redirect to="/editor" />}
       
       <div className="home-container">
         <Signin />

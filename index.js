@@ -14,6 +14,11 @@ const formidable = require("formidable");
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require('uuid');
 
+const cookieParser = require("cookie-parser");
+const expressValidator = require("express-validator")
+const bodyParser = require('body-parser')
+
+const morgan  =   require("morgan");
 
 
 dotenv.config()
@@ -25,8 +30,11 @@ const app = express();
 app.use(cors());
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
+app.use(cookieParser());
+app.use(expressValidator())
+
 const port = process.env.PORT || 3001;
-//app.use(morgan());
+app.use(morgan());
 app.use(express.static("front-end"));
 app.use(express.static("back-end/uploads"));
 
@@ -45,8 +53,11 @@ mongoose.connect(process.env.MONGO_URL,{
 //routes
 const videoRoutes = require("./back-end/routes/videos")
 const mergeRoutes = require("./back-end/routes/merge")
+const userRoute = require("./back-end/routes/user")
 app.use("/api/videos",videoRoutes)
 app.use("/api/merge",mergeRoutes)
+app.use("/api/users",userRoute)
+
 
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "front-end", "index.html"));

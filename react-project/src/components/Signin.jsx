@@ -33,6 +33,7 @@ const Signin = () => {
 
     signin({ email, password }).then(
       (data) => {
+        console.log(data)
         if (data.error) {
           setValues({ ...values, error: data.error, success: false });
         } else {
@@ -82,7 +83,7 @@ const Signin = () => {
      
     >
     
-    <Redirect to="/dashboard"  />
+    <Redirect to="/editor"  />
     </div>}
     </>
    

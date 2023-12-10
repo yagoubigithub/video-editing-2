@@ -140,7 +140,7 @@ const Signup = () => {
       className="alert alert-success"
       style={{ display: success ? "" : "none" }}
     >
-    <Redirect to="/dashboard"  />
+    <Redirect to="/editor"  />
     </div>}
     </>
    
