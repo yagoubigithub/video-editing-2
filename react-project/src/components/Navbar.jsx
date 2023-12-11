@@ -32,7 +32,7 @@ const fonts = ['Croissant One', 'Fuggles', 'Bebas Neue', 'Pacifico', 'Great Vibe
 const sizes = [45, 50, 60, 70 , 90]
 const Navbar = () => {
 
-    const { setStyle , file } = useContext(TextContext)
+    const { setStyle , file , texts  , deleteActiveText} = useContext(TextContext)
 
     const [openColor, setOpenColor] = useState(false);
     const [openBackground, setOpenBackground] = useState(false);
@@ -85,7 +85,7 @@ const Navbar = () => {
         >
            
          <div>
-         {file.filename &&  <>
+         {(file.filename && texts.length > 0) &&  <>
             
             <Select
                  labelId="fonts"
@@ -122,7 +122,7 @@ const Navbar = () => {
              </Select>
  
  
-             <div className='color-container' style={{ width : 200  , marginLeft : 30 }}>
+             <div className='color-container' style={{ width : 30  , marginLeft : 30 }}>
                  <IconButton onClick={() => setOpenColor(!openColor)} style={{color : colorhexa}}>
                      <FormatColorTextIcon />
                  </IconButton>
@@ -145,7 +145,7 @@ const Navbar = () => {
                  </ClickAwayListener>}
              </div>
  
-             <div className='background-container'  style={{ width : 200  , marginLeft : 30 }}>
+             <div className='background-container'  style={{ width : 30  , marginLeft : 30 }}>
                  <IconButton onClick={() => setOpenBackground(!openBackground)} >
                      <FormatColorFillIcon />
                  </IconButton>
@@ -167,6 +167,13 @@ const Navbar = () => {
                      </ClickAwayListener>
                  }
              </div>
+
+             <div className='background-container'  style={{ width : 30  , marginLeft : 30 }}>
+                 <IconButton onClick={() => deleteActiveText()} >
+                     <DeleteIcon />
+                 </IconButton>
+
+                 </div>
  
             </>
  }

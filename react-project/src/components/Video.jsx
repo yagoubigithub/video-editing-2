@@ -21,7 +21,8 @@ let fired = 0,
 const Video = () => {
 
 
-    const { file, context, w, h, setH, setW, setContext, video, setVideo, setInsertText, getInsertText, addNewText, texts,setTexts, setActive, setFabrixTextJSON, download } = useContext(TextContext)
+    const { file, context, w, h, setH, setW, setContext, video, setVideo, setInsertText, getInsertText, addNewText,
+         texts,setTexts, setActive, setFabrixTextJSON, download , active } = useContext(TextContext)
 
     const videoContainer = useRef()
 
@@ -191,26 +192,39 @@ const Video = () => {
 
             });
 
-            fabricText.on("changed", (e) => {
-                const fabricTextJson = fabricText.toJSON()
+           
+            // fabricText.on("changed", (e) => {
+            //     const fabricTextJson = fabricText.toJSON()
 
 
-                setFabrixTextJSON(fabricTextJson, text.id)
-            })
+            //     setFabrixTextJSON(fabricTextJson, text.id)
+            // })
 
-            fabricText.on("rotating", (e) => {
-                const fabricTextJson = fabricText.toJSON()
-                setFabrixTextJSON(fabricTextJson, text.id)
-            })
-            fabricText.on("moving", (e) => {
-                const fabricTextJson = fabricText.toJSON()
-                setFabrixTextJSON(fabricTextJson, text.id)
-            })
+            fabricText.on("mouseup", (e) => {
+                console.log(e)
+                    const fabricTextJson = fabricText.toJSON()
+                    setFabrixTextJSON(fabricTextJson, text.id)
+                })
+            // fabricText.on("rotating", (e) => {
+            //     const fabricTextJson = fabricText.toJSON()
+            //     setFabrixTextJSON(fabricTextJson, text.id)
+            // })
+            // fabricText.on("moving", (e) => {
+            //     const fabricTextJson = fabricText.toJSON()
+            //     setFabrixTextJSON(fabricTextJson, text.id)
+            // })
 
-            fabricText.on("scaling", (e) => {
-                const fabricTextJson = fabricText.toJSON()
-                setFabrixTextJSON(fabricTextJson, text.id)
-            })
+            // fabricText.on("scaling", (e) => {
+            //     const fabricTextJson = fabricText.toJSON()
+            //     setFabrixTextJSON(fabricTextJson, text.id)
+            // })
+
+            if(active === text.id){
+                
+                window.tempCanvas.setActiveObject(fabricText);
+
+
+            }
         })
 
 
