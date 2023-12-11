@@ -53,7 +53,7 @@ export const TextProvider = ({ children }) => {
         position: "absolute",
         width: "fit-content",
         zIndex: "998",
-        fontSize: 35,
+        fontSize: 45,
         left: x,
         top: y,
         outline: "none",

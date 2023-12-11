@@ -65,7 +65,7 @@ const Video = () => {
                 
             }
 
-            let videoUrl = `${process.env.REACT_APP_BASE_URL}/api/videos/uploads/${file.filename}/${file.type.split("/")[1]
+            let videoUrl = `${process.env.REACT_APP_BASE_URL}/videos/uploads/${file.filename}/${file.type.split("/")[1]
                 }`;
 
 

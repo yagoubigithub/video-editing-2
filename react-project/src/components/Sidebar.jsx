@@ -35,7 +35,7 @@ const Sidebar = () => {
 
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/api/videos`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/videos`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const Sidebar = () => {
         xhr.addEventListener("load", SuccessHandler, false);
         xhr.addEventListener("error", ErrorHandler, false);
         xhr.addEventListener("abort", AbortHandler, false);
-        xhr.open("POST", process.env.REACT_APP_BASE_URL + "/api/videos/upload");
+        xhr.open("POST", process.env.REACT_APP_BASE_URL + "/videos/upload");
         xhr.send(formData);
     };
 
@@ -156,7 +156,7 @@ const Sidebar = () => {
 
 
                     {videos.map(_file => {
-                        return (<video key={_file._id} style={{ border: file._id == _file._id ? "3px solid red" : "none" }} onClick={() => setFile(_file)} width={200} src={`${process.env.REACT_APP_BASE_URL}/api/videos/uploads/${_file.filename}/${_file.type.split("/")[1]}`}>
+                        return (<video key={_file._id} style={{ border: file._id == _file._id ? "3px solid red" : "none" }} onClick={() => setFile(_file)} width={200} src={`${process.env.REACT_APP_BASE_URL}/videos/uploads/${_file.filename}/${_file.type.split("/")[1]}`}>
 
                         </video>)
                     })}
