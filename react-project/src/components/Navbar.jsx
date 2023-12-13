@@ -21,7 +21,7 @@ import { Sketch } from '@uiw/react-color'
 import DeleteIcon from '@mui/icons-material/Delete';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
-
+import ImageIcon from '@mui/icons-material/Image';
 
 //context
 import { TextContext } from "../context/TextContext"
@@ -32,7 +32,7 @@ const fonts = ['Croissant One', 'Fuggles', 'Bebas Neue', 'Pacifico', 'Great Vibe
 const sizes = [45, 50, 60, 70 , 90]
 const Navbar = () => {
 
-    const { setStyle , file , texts  , deleteActiveText} = useContext(TextContext)
+    const { setStyle , file , texts  , deleteActiveText , active} = useContext(TextContext)
 
     const [openColor, setOpenColor] = useState(false);
     const [openBackground, setOpenBackground] = useState(false);
@@ -169,11 +169,19 @@ const Navbar = () => {
              </div>
 
              <div className='background-container'  style={{ width : 30  , marginLeft : 30 }}>
-                 <IconButton onClick={() => deleteActiveText()} >
-                     <DeleteIcon />
-                 </IconButton>
+                <IconButton onClick={() => deleteActiveText()} >
+                    <ImageIcon />
+                </IconButton>
 
-                 </div>
+                </div>
+             {
+                active && <div className='background-container'  style={{ width : 30  , marginLeft : 30 }}>
+                <IconButton onClick={() => deleteActiveText()} >
+                    <DeleteIcon />
+                </IconButton>
+
+                </div>
+             }
  
             </>
  }

@@ -193,18 +193,22 @@ const Video = () => {
             });
 
            
-            // fabricText.on("changed", (e) => {
-            //     const fabricTextJson = fabricText.toJSON()
+             fabricText.on("changed", (e) => {
+                 const fabricTextJson = fabricText.toJSON()
 
 
-            //     setFabrixTextJSON(fabricTextJson, text.id)
-            // })
+                 setFabrixTextJSON(fabricTextJson, text.id)
+             })
 
-            fabricText.on("mouseup", (e) => {
-                console.log(e)
+             fabricText.on("mouseup", (e) => {
+               
                     const fabricTextJson = fabricText.toJSON()
-                    setFabrixTextJSON(fabricTextJson, text.id)
-                })
+                     setFabrixTextJSON(fabricTextJson, text.id)
+                 })
+
+            
+
+            
             // fabricText.on("rotating", (e) => {
             //     const fabricTextJson = fabricText.toJSON()
             //     setFabrixTextJSON(fabricTextJson, text.id)
@@ -219,12 +223,15 @@ const Video = () => {
             //     setFabrixTextJSON(fabricTextJson, text.id)
             // })
 
-            if(active === text.id){
+             if(active === text.id){
                 
                 window.tempCanvas.setActiveObject(fabricText);
 
+               
+            
+              
+            } 
 
-            }
         })
 
 

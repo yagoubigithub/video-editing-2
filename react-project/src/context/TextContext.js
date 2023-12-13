@@ -298,6 +298,12 @@ export const TextProvider = ({ children }) => {
   };
 
  
+  const deleteActiveText = () =>{
+
+    const _texts = texts.filter(text =>text.id !== active)
+
+    setTexts([..._texts])
+  }
 
   return (
     <TextContext.Provider
@@ -323,6 +329,7 @@ export const TextProvider = ({ children }) => {
         setStyle,
         onResize,
         download,
+        deleteActiveText,
       }}
       displayName="TextContext"
     >
