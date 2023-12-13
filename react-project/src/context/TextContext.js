@@ -42,35 +42,29 @@ export const TextProvider = ({ children }) => {
     return JSON.parse(localStorage.getItem("insertText"));
   };
 
-
   const setEmoji = (emoji) => {
-
-    localStorage.setItem("emoji" , JSON.stringify(emoji))
-  }
+    localStorage.setItem("emoji", JSON.stringify(emoji));
+  };
   const addNewText = (x, y, text) => {
-    const emoji  = JSON.parse(localStorage.getItem("emoji"))
-    if(emoji.imageUrl){
-
+    const emoji = JSON.parse(localStorage.getItem("emoji"));
+    if (emoji.imageUrl) {
       //add emoji
 
-
       const initData = {
-        type  : "emoji",
-        url : emoji.imageUrl,
+        type: "emoji",
+        url: emoji.imageUrl,
         styles: {
-        
           cursor: "move",
-        
+
           left: x,
           top: y,
-        
         },
-  
+
         from: 0,
         to: 3,
         id: uuidv4(),
       };
-  
+
       let textJson = {};
       if (localStorage.getItem("textJson")) {
         textJson = { ...JSON.parse(localStorage.getItem("textJson")) };
@@ -84,24 +78,22 @@ export const TextProvider = ({ children }) => {
             },
           };
         }
-  
+
         return text;
       });
-  
+
       setTexts([..._texts, initData]);
 
-
-      setEmoji({})
+      setEmoji({});
 
       return;
-
-    }else {
+    } else {
       const initData = {
-        type  : "text",
+        type: "text",
         text,
         styles: {
           backgroundColor: "#ffffff00",
-  
+
           color: "#aa0000",
           cursor: "move",
           fontFamily: "Croissant One",
@@ -117,12 +109,12 @@ export const TextProvider = ({ children }) => {
           display: "inline-block",
           wordBreak: "keep-all",
         },
-  
+
         from: 0,
         to: 3,
         id: uuidv4(),
       };
-  
+
       let textJson = {};
       if (localStorage.getItem("textJson")) {
         textJson = { ...JSON.parse(localStorage.getItem("textJson")) };
@@ -136,13 +128,12 @@ export const TextProvider = ({ children }) => {
             },
           };
         }
-  
+
         return text;
       });
-  
+
       setTexts([..._texts, initData]);
     }
-   
   };
 
   const setFabrixTextJSON = (fabricTextJson, id) => {
@@ -264,7 +255,6 @@ export const TextProvider = ({ children }) => {
       newCanvas.id = "newCanvas-" + text.id;
       newCanvas = new fabric.Canvas("newCanvas-" + text.id);
 
-      console.log(text.styles.width);
       let s = {
         ...text.styles,
 
@@ -275,41 +265,107 @@ export const TextProvider = ({ children }) => {
       if (text.styles.width && !isNaN(text.styles.width))
         s = { ...s, width: text.styles.width * scaleW };
 
-      if(text.styles.height && !isNaN(text.styles.height))
-      s = {...s, height :  text.styles.height * scaleH}
-    if(text.styles.scaleX)
-    s = {...s, scaleX :  text.styles.scaleX * scaleW}
+      if (text.styles.height && !isNaN(text.styles.height))
+        s = { ...s, height: text.styles.height * scaleH };
+      if (text.styles.scaleX) s = { ...s, scaleX: text.styles.scaleX * scaleW };
 
-    if(text.styles.scaleY)
-    s = {...s, scaleY :  text.styles.scaleY * scaleW}
+      if (text.styles.scaleY) s = { ...s, scaleY: text.styles.scaleY * scaleW };
 
+      if (text.type === "text") {
+        const fabricText = new fabric.Text(text.text, s);
 
-      const fabricText = new fabric.Text(text.text, s);
+        newCanvas.add(fabricText);
 
-     
-      newCanvas.add(fabricText);
+        const dataURL = newCanvas.toDataURL({
+          width: video.videoWidth,
+          height: video.videoHeight,
+          left: 0,
+          top: 0,
+          format: "png",
+        });
 
-      const dataURL = newCanvas.toDataURL({
-        width: video.videoWidth,
-        height: video.videoHeight,
-        left: 0,
-        top: 0,
-        format: "png",
-      });
+        const textData = {
+          to: text.to,
+          from: text.from,
+          imgBase64: dataURL,
+          left: 0,
+          top: 0,
+          width: video.videoWidth,
+          height: video.videoHeight,
+        };
 
-      const textData = {
-        to: text.to,
-        from: text.from,
-        imgBase64: dataURL,
-        left: 0,
-        top: 0,
-        width: video.videoWidth,
-        height: video.videoHeight,
-      };
+        data.push(textData);
 
-      data.push(textData);
-      count++;
+        count++;
+          
+        if (count > texts.length - 1) {
+          fetch(
+            `${API}/merge`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+  
+              body: JSON.stringify({
+                data,
+                file,
+                socketSessionId : localStorage.getItem("thisSessionId")
+              }),
+            },
+            50000
+          )
+            .then((response) => response.json())
+            .then((result) => {
+              //  download_btn.innerText = "download";
+              if (result.success) {
+             
+  
+                setTimeout(()=>{
+                  const a = document.createElement("a");
+                  document.body.appendChild(a);
+                  a.download = "output.mp4";
+                  a.href = "http://localhost:3001/download";
+                  a.click();
+                }, 3000)
+              }
+            });
+        }
+        
 
+      } else {
+        const imgObj = new Image();
+        imgObj.crossOrigin = "anonymous";
+        imgObj.src = text.url;
+        imgObj.onload = function () {
+          const image = new fabric.Image(imgObj);
+          image.set({
+            ...s,
+          });
+
+          newCanvas.add(image);
+          const dataURL = newCanvas.toDataURL({
+            width: video.videoWidth,
+            height: video.videoHeight,
+            left: 0,
+            top: 0,
+            format: "png",
+          });
+
+          const textData = {
+            to: text.to,
+            from: text.from,
+            imgBase64: dataURL,
+            left: 0,
+            top: 0,
+            width: video.videoWidth,
+            height: video.videoHeight,
+          };
+
+          data.push(textData);
+          count++;
+          
       if (count > texts.length - 1) {
         fetch(
           `${API}/merge`,
@@ -344,6 +400,10 @@ export const TextProvider = ({ children }) => {
             }
           });
       }
+        };
+      }
+
+     
 
       // const link = document.createElement("a");
       // link.download = `image-${text.id}.png`;
@@ -354,13 +414,11 @@ export const TextProvider = ({ children }) => {
     });
   };
 
- 
-  const deleteActiveText = () =>{
+  const deleteActiveText = () => {
+    const _texts = texts.filter((text) => text.id !== active);
 
-    const _texts = texts.filter(text =>text.id !== active)
-
-    setTexts([..._texts])
-  }
+    setTexts([..._texts]);
+  };
 
   return (
     <TextContext.Provider
@@ -387,8 +445,8 @@ export const TextProvider = ({ children }) => {
         onResize,
         download,
         deleteActiveText,
-       
-         setEmoji,
+
+        setEmoji,
       }}
       displayName="TextContext"
     >

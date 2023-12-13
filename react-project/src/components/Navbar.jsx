@@ -27,6 +27,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import ImageIcon from '@mui/icons-material/Image';
+import MoodIcon from '@mui/icons-material/Mood';
 
 //context
 import { TextContext } from "../context/TextContext"
@@ -177,7 +178,7 @@ const Navbar = () => {
 
              <div className='background-container'  style={{ width : 30  , marginLeft : 30 }}>
                 <IconButton onClick={() => setOpenImage(true)} >
-                    <ImageIcon />
+                    <MoodIcon />
                 </IconButton>
 
                 </div>
