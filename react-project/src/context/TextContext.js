@@ -10,6 +10,7 @@ export const TextProvider = ({ children }) => {
 
   const [context, setContext] = useState({});
   const [video, setVideo] = useState({});
+
   const [w, setW] = useState(0);
   const [h, setH] = useState(0);
   const [texts, setTexts] = useState([]);
@@ -41,51 +42,107 @@ export const TextProvider = ({ children }) => {
     return JSON.parse(localStorage.getItem("insertText"));
   };
 
+
+  const setEmoji = (emoji) => {
+
+    localStorage.setItem("emoji" , JSON.stringify(emoji))
+  }
   const addNewText = (x, y, text) => {
-    const initData = {
-      text,
-      styles: {
-        backgroundColor: "#ffffff00",
+    const emoji  = JSON.parse(localStorage.getItem("emoji"))
+    if(emoji.imageUrl){
 
-        color: "#aa0000",
-        cursor: "move",
-        fontFamily: "Croissant One",
-        position: "absolute",
-        width: "fit-content",
-        zIndex: "998",
-        fontSize: 45,
-        left: x,
-        top: y,
-        outline: "none",
-        textAlign: "center",
-        whiteSpace: "nowrap",
-        display: "inline-block",
-        wordBreak: "keep-all",
-      },
+      //add emoji
 
-      from: 0,
-      to: 3,
-      id: uuidv4(),
-    };
 
-    let textJson = {};
-    if (localStorage.getItem("textJson")) {
-      textJson = { ...JSON.parse(localStorage.getItem("textJson")) };
-    }
-    const _texts = [...texts].map((text) => {
-      if (textJson[text.id]) {
-        return {
-          ...text,
-          styles: {
-            ...textJson[text.id],
-          },
-        };
+      const initData = {
+        type  : "emoji",
+        url : emoji.imageUrl,
+        styles: {
+        
+          cursor: "move",
+        
+          left: x,
+          top: y,
+        
+        },
+  
+        from: 0,
+        to: 3,
+        id: uuidv4(),
+      };
+  
+      let textJson = {};
+      if (localStorage.getItem("textJson")) {
+        textJson = { ...JSON.parse(localStorage.getItem("textJson")) };
       }
+      const _texts = [...texts].map((text) => {
+        if (textJson[text.id]) {
+          return {
+            ...text,
+            styles: {
+              ...textJson[text.id],
+            },
+          };
+        }
+  
+        return text;
+      });
+  
+      setTexts([..._texts, initData]);
 
-      return text;
-    });
 
-    setTexts([..._texts, initData]);
+      setEmoji({})
+
+      return;
+
+    }else {
+      const initData = {
+        type  : "text",
+        text,
+        styles: {
+          backgroundColor: "#ffffff00",
+  
+          color: "#aa0000",
+          cursor: "move",
+          fontFamily: "Croissant One",
+          position: "absolute",
+          width: "fit-content",
+          zIndex: "998",
+          fontSize: 45,
+          left: x,
+          top: y,
+          outline: "none",
+          textAlign: "center",
+          whiteSpace: "nowrap",
+          display: "inline-block",
+          wordBreak: "keep-all",
+        },
+  
+        from: 0,
+        to: 3,
+        id: uuidv4(),
+      };
+  
+      let textJson = {};
+      if (localStorage.getItem("textJson")) {
+        textJson = { ...JSON.parse(localStorage.getItem("textJson")) };
+      }
+      const _texts = [...texts].map((text) => {
+        if (textJson[text.id]) {
+          return {
+            ...text,
+            styles: {
+              ...textJson[text.id],
+            },
+          };
+        }
+  
+        return text;
+      });
+  
+      setTexts([..._texts, initData]);
+    }
+   
   };
 
   const setFabrixTextJSON = (fabricTextJson, id) => {
@@ -330,6 +387,8 @@ export const TextProvider = ({ children }) => {
         onResize,
         download,
         deleteActiveText,
+       
+         setEmoji,
       }}
       displayName="TextContext"
     >

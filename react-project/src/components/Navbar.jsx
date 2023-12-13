@@ -6,12 +6,17 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button'
 
 
 import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
-
+import CloseIcon from '@mui/icons-material/Close';
 
 
 
@@ -26,6 +31,7 @@ import ImageIcon from '@mui/icons-material/Image';
 //context
 import { TextContext } from "../context/TextContext"
 import { isAuthenticated, signout } from '../auth';
+import Images from './Images';
 
 
 const fonts = ['Croissant One', 'Fuggles', 'Bebas Neue', 'Pacifico', 'Great Vibes', 'Yellowtail', 'Philosopher', 'Passion One', 'Kaushan Script']
@@ -41,6 +47,7 @@ const Navbar = () => {
     const [backgroundhexa, setBackgroundHexa] = useState("#ffffff00");
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [openImage, setOpenImage] = React.useState(false);
 
 
 
@@ -169,7 +176,7 @@ const Navbar = () => {
              </div>
 
              <div className='background-container'  style={{ width : 30  , marginLeft : 30 }}>
-                <IconButton onClick={() => deleteActiveText()} >
+                <IconButton onClick={() => setOpenImage(true)} >
                     <ImageIcon />
                 </IconButton>
 
@@ -221,6 +228,38 @@ const Navbar = () => {
               </Menu>
             </div>
           
+
+
+            <Dialog
+        onClose={()=>setOpenImage(false)}
+        aria-labelledby="customized-dialog-title"
+        open={openImage}
+      >
+        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+          Modal title
+        </DialogTitle>
+        <IconButton
+          aria-label="close"
+          onClick={()=>setOpenImage(false)}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent dividers>
+            <Images />
+        
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            Save changes
+          </Button>
+        </DialogActions>
+      </Dialog>
         </div>
     )
 }

@@ -19,6 +19,7 @@ function Editor() {
 
     useEffect(() => {
 
+        localStorage.setItem("emoji" , "{}")
         const thisSessionId = Math.random().toString(36).substr(2, 9);
 
         localStorage.setItem("thisSessionId", thisSessionId)

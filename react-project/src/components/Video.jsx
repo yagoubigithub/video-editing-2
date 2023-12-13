@@ -16,13 +16,13 @@ import { IconButton } from '@mui/material';
 
 
 let fired = 0,
- minwidth = 100;
+    minwidth = 100;
 
 const Video = () => {
 
 
     const { file, context, w, h, setH, setW, setContext, video, setVideo, setInsertText, getInsertText, addNewText,
-         texts,setTexts, setActive, setFabrixTextJSON, download , active } = useContext(TextContext)
+        texts, setTexts, setActive, setFabrixTextJSON, download, active } = useContext(TextContext)
 
     const videoContainer = useRef()
 
@@ -57,13 +57,13 @@ const Video = () => {
                 videoContainer.current.removeChild(document.getElementById("canvas"))
             }
             if (document.getElementById("tempCanvas")) {
-               
+
                 try {
                     videoContainer.current.removeChild(document.getElementById("tempCanvas"))
                 } catch (error) {
                     console.log(error)
                 }
-                
+
             }
 
             let videoUrl = `${process.env.REACT_APP_BASE_URL}/videos/uploads/${file.filename}/${file.type.split("/")[1]
@@ -152,85 +152,105 @@ const Video = () => {
         window.tempCanvas = new fabric.Canvas('tempCanvas');
         texts.map(text => {
 
-            // const input = document.createElement("div");
 
-            // input.setAttribute("contenteditable", "true");
-            // input.setAttribute("draggable", "true")
-            // input.innerText = text.text;
 
-            // const styling = JSON.stringify(text.styles)
-            //     .replaceAll(",", ";")
-            //     .replaceAll("{", "")
-            //     .replaceAll("}", "")
-            //     .replaceAll('"', "");
-            // console.log(`${styling}`)
-
-            // input.style.cssText = `${styling}`;
-            // videoContainer.current.append(input)
 
             let s = { ...text.styles }
 
 
-            const tempFabrixText = new fabric.IText(text.text, s)
+            if (text.type === "emoji") {
 
+                //if emoji
 
-            const fabricText = new fabric.IText(text.text, {...tempFabrixText})
-
-
-           
-
-            window.tempCanvas.add(fabricText);
-
-           
-
-
-
-            fabricText.on('mousedown', function (e) {
-                // e.target should be the circle
-                setActive(text.id);
-                
-
-            });
-
-           
-             fabricText.on("changed", (e) => {
-                 const fabricTextJson = fabricText.toJSON()
-
-
-                 setFabrixTextJSON(fabricTextJson, text.id)
-             })
-
-             fabricText.on("mouseup", (e) => {
-               
-                    const fabricTextJson = fabricText.toJSON()
-                     setFabrixTextJSON(fabricTextJson, text.id)
-                 })
-
-            
-
-            
-            // fabricText.on("rotating", (e) => {
-            //     const fabricTextJson = fabricText.toJSON()
-            //     setFabrixTextJSON(fabricTextJson, text.id)
-            // })
-            // fabricText.on("moving", (e) => {
-            //     const fabricTextJson = fabricText.toJSON()
-            //     setFabrixTextJSON(fabricTextJson, text.id)
-            // })
-
-            // fabricText.on("scaling", (e) => {
-            //     const fabricTextJson = fabricText.toJSON()
-            //     setFabrixTextJSON(fabricTextJson, text.id)
-            // })
-
-             if(active === text.id){
-                
-                window.tempCanvas.setActiveObject(fabricText);
-
-               
-            
               
-            } 
+                fabric.Image.fromURL(text.url, function (fabricImage) {
+                    //i create an extra var for to change some image properties
+                    var img1 = fabricImage.set({ ...text.styles, width: 64, height: 64 });
+
+                    fabricImage.on('mousedown', function (e) {
+                        // e.target should be the circle
+                        setActive(text.id);
+    
+    
+                    });
+    
+    
+                    fabricImage.on("changed", (e) => {
+                        const fabricTextJson = fabricImage.toJSON()
+    
+    
+                        setFabrixTextJSON(fabricTextJson, text.id)
+                    })
+    
+                    fabricImage.on("mouseup", (e) => {
+    
+                        const fabricTextJson = fabricImage.toJSON()
+                        setFabrixTextJSON(fabricTextJson, text.id)
+                    })
+    
+                    if (active === text.id) {
+    
+                        window.tempCanvas.setActiveObject(fabricImage);
+    
+    
+    
+    
+                    }
+                    window.tempCanvas.add(img1);
+                });
+
+
+            } else if (text.type === "text") {
+                const tempFabrixText = new fabric.IText(text.text, s)
+
+
+                const fabricText = new fabric.IText(text.text, { ...tempFabrixText })
+
+
+
+
+                window.tempCanvas.add(fabricText);
+
+
+
+
+
+                fabricText.on('mousedown', function (e) {
+                    // e.target should be the circle
+                    setActive(text.id);
+
+
+                });
+
+
+                fabricText.on("changed", (e) => {
+                    const fabricTextJson = fabricText.toJSON()
+
+
+                    setFabrixTextJSON(fabricTextJson, text.id)
+                })
+
+                fabricText.on("mouseup", (e) => {
+
+                    const fabricTextJson = fabricText.toJSON()
+                    setFabrixTextJSON(fabricTextJson, text.id)
+                })
+
+                if (active === text.id) {
+
+                    window.tempCanvas.setActiveObject(fabricText);
+
+
+
+
+                }
+
+            }
+
+
+
+
+
 
         })
 
@@ -242,7 +262,7 @@ const Video = () => {
         console.log("can")
         fired++;
 
-        setOneSecond( w / video.duration)
+        setOneSecond(w / video.duration)
         setDuration(video.duration)
 
         if (fired < 4) {
@@ -287,102 +307,102 @@ const Video = () => {
     }
 
 
-    const timing_right_mousedown  = ( e  , id) => {
+    const timing_right_mousedown = (e, id) => {
         e.preventDefault();
         window.addEventListener("mousemove", resize);
         window.addEventListener("mouseup", () => {
-          window.removeEventListener("mousemove", resize);
+            window.removeEventListener("mousemove", resize);
         });
 
         function resize(e) {
             if (w - e.pageX + 200 <= 0) {
-              return;
+                return;
             }
 
             const timing = document.getElementById(`timing-${id}`);
             const time = document.getElementById(`time-${id}`);
-           
+
             if (e.pageX - timing.getBoundingClientRect().left <= minwidth) return;
 
             timing.style.width = e.pageX - timing.getBoundingClientRect().left + "px";
-      
+
             let to = (e.pageX - 200) / one_second;
 
             let _texts = texts.map((text) => {
                 if (text.id === id) {
-                  time.innerHTML =
-                    new Date(text.from * 1000).toISOString().substring(14, 19) +
-                    "---" +
-                    new Date(to * 1000).toISOString().substring(14, 19);
-                  return {
-                    ...text,
-                    to,
-                  };
+                    time.innerHTML =
+                        new Date(text.from * 1000).toISOString().substring(14, 19) +
+                        "---" +
+                        new Date(to * 1000).toISOString().substring(14, 19);
+                    return {
+                        ...text,
+                        to,
+                    };
                 }
                 return text;
-              });
+            });
 
-              setTexts([..._texts])
+            setTexts([..._texts])
 
-            
+
         }
     }
 
-    const timing_left_mousedown  = ( e  , id,orignal_from , orignal_to) => {
+    const timing_left_mousedown = (e, id, orignal_from, orignal_to) => {
         e.preventDefault();
         const timing = document.getElementById(`timing-${id}`);
         const time = document.getElementById(`time-${id}`);
 
 
-       let original_width = parseFloat(
-          getComputedStyle(timing, null).getPropertyValue("width").replace("px", "")
+        let original_width = parseFloat(
+            getComputedStyle(timing, null).getPropertyValue("width").replace("px", "")
         );
-       let  original_x = timing.getBoundingClientRect().left;
-    
-       let  original_mouse_x = e.pageX;
+        let original_x = timing.getBoundingClientRect().left;
 
-       let from = 0;
-       let to = 3;
-        
-    window.addEventListener("mousemove", resize);
-    window.addEventListener("mouseup", () => {
-      orignal_from = from;
-      orignal_to = to;
-      window.removeEventListener("mousemove", resize);
-    });
+        let original_mouse_x = e.pageX;
 
-    function resize(e) {
-        if (e.pageX - original_mouse_x < 0) {
-          return;
-        }
+        let from = 0;
+        let to = 3;
 
+        window.addEventListener("mousemove", resize);
+        window.addEventListener("mouseup", () => {
+            orignal_from = from;
+            orignal_to = to;
+            window.removeEventListener("mousemove", resize);
+        });
 
-        if (original_width - (e.pageX - original_mouse_x) <= minwidth) return;
-
-        timing.style.width = original_width - (e.pageX - original_mouse_x) + "px";
-  
-        timing.style.left =  ((e.pageX  -  original_mouse_x) + orignal_from * one_second)+ "px";
-  
-        from = orignal_from + (e.pageX - original_mouse_x) / one_second;
-
-
-        let _texts = texts.map((text) => {
-            if (text.id === id) {
-              time.innerHTML =
-                new Date(from * 1000).toISOString().substring(14, 19) +
-                "---" +
-                new Date(text.to * 1000).toISOString().substring(14, 19);
-              return {
-                ...text,
-                from,
-              };
+        function resize(e) {
+            if (e.pageX - original_mouse_x < 0) {
+                return;
             }
-            return text;
-          });
 
 
-          setTexts([..._texts])
-    }
+            if (original_width - (e.pageX - original_mouse_x) <= minwidth) return;
+
+            timing.style.width = original_width - (e.pageX - original_mouse_x) + "px";
+
+            timing.style.left = ((e.pageX - original_mouse_x) + orignal_from * one_second) + "px";
+
+            from = orignal_from + (e.pageX - original_mouse_x) / one_second;
+
+
+            let _texts = texts.map((text) => {
+                if (text.id === id) {
+                    time.innerHTML =
+                        new Date(from * 1000).toISOString().substring(14, 19) +
+                        "---" +
+                        new Date(text.to * 1000).toISOString().substring(14, 19);
+                    return {
+                        ...text,
+                        from,
+                    };
+                }
+                return text;
+            });
+
+
+            setTexts([..._texts])
+        }
 
     }
     return (
@@ -404,36 +424,36 @@ const Video = () => {
                     </IconButton>
 
                     <b>{moment.utc(currentTime * 1000).format("HH:mm:ss")} / {moment.utc(duration * 1000).format("HH:mm:ss")}</b>
-                
-                
-                <IconButton style={{ color: "white" }} onClick={download}>
 
-                    <FileDownloadIcon />
-                </IconButton>
+
+                    <IconButton style={{ color: "white" }} onClick={download}>
+
+                        <FileDownloadIcon />
+                    </IconButton>
                 </div>
             </div>}
-           
+
             <div id="timeline">
                 <div id="timeline-container">
                     {
-                        texts.map((text , index) => {
+                        texts.map((text, index) => {
                             return (
-                               <div className="timing" id={`timing-${text.id}`} style={{
-                               width  :  one_second * (text.to - text.from),
-                               left : one_second * text.from,
-                               top : index  * 54
-                               }}>
-                                <div className="timing-left" onMouseDown={(event)=>timing_left_mousedown(event , text.id , text.from, text.to)}>
+                                <div className="timing" id={`timing-${text.id}`} style={{
+                                    width: one_second * (text.to - text.from),
+                                    left: one_second * text.from,
+                                    top: index * 54
+                                }}>
+                                    <div className="timing-left" onMouseDown={(event) => timing_left_mousedown(event, text.id, text.from, text.to)}>
 
-                                </div>
+                                    </div>
 
-                                <div className="time" id={`time-${text.id}`}>
-                                    <span>
-                                    {new Date(text.from * 1000).toISOString().substring(14, 19) }/{new Date(text.to * 1000).toISOString().substring(14, 19) }
-                                    </span>
+                                    <div className="time" id={`time-${text.id}`}>
+                                        <span>
+                                            {new Date(text.from * 1000).toISOString().substring(14, 19)}/{new Date(text.to * 1000).toISOString().substring(14, 19)}
+                                        </span>
+                                    </div>
+                                    <div className="timing-right" onMouseDown={(event) => timing_right_mousedown(event, text.id)}></div>
                                 </div>
-                                <div className="timing-right" onMouseDown={(event)=>timing_right_mousedown(event , text.id)}></div>
-                               </div>
                             )
                         })
                     }
