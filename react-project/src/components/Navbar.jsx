@@ -48,7 +48,7 @@ const Navbar = () => {
     const [backgroundhexa, setBackgroundHexa] = useState("#ffffff00");
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [openImage, setOpenImage] = React.useState(false);
+    const [openImage, setOpenImage] = React.useState("none");
 
 
 
@@ -177,8 +177,15 @@ const Navbar = () => {
              </div>
 
              <div className='background-container'  style={{ width : 30  , marginLeft : 30 }}>
-                <IconButton onClick={() => setOpenImage(true)} >
+                <IconButton onClick={() => setOpenImage('emoji')} >
                     <MoodIcon />
+                </IconButton>
+
+                </div>
+
+                <div className='background-container'  style={{ width : 30  , marginLeft : 30 }}>
+                <IconButton onClick={() => setOpenImage("image")} >
+                    <ImageIcon />
                 </IconButton>
 
                 </div>
@@ -232,16 +239,16 @@ const Navbar = () => {
 
 
             <Dialog
-        onClose={()=>setOpenImage(false)}
+        onClose={()=>setOpenImage("none")}
         aria-labelledby="customized-dialog-title"
-        open={openImage}
+        open={openImage !== "none"}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Modal title
+          {openImage}
         </DialogTitle>
         <IconButton
           aria-label="close"
-          onClick={()=>setOpenImage(false)}
+          onClick={()=>setOpenImage("none")}
           sx={{
             position: 'absolute',
             right: 8,
@@ -252,11 +259,11 @@ const Navbar = () => {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-            <Images />
+            <Images type={openImage} />
         
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
+          <Button autoFocus onClick={()=>setOpenImage("none")}>
             Save changes
           </Button>
         </DialogActions>

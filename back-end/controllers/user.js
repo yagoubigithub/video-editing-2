@@ -1,114 +1,110 @@
+const User = require("../models/User");
+const { errorHandler } = require("../helpers/dbErrorHandler");
 
-const User = require("../models/User")
-const {errorHandler} = require('../helpers/dbErrorHandler')
-
-const jwt = require("jsonwebtoken") //to generate sign token
-const expressJwt = require("express-jwt") // for authorization
+const jwt = require("jsonwebtoken"); //to generate sign token
+const expressJwt = require("express-jwt"); // for authorization
 
 exports.signup = (req, res) => {
+  const user = new User(req.body);
 
-   const user = new User(req.body);
-  
-   user.save().then((user)=>{
-
+  user
+    .save()
+    .then((user) => {
       user.salt = undefined;
       user.hashed_password = undefined;
 
-        // generate a signed token with user id and secret
-        const token  = jwt.sign({_id : user._id}, process.env.JWT_SECRET);
+      // generate a signed token with user id and secret
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
-//pressist the token as 't' in cookiewith ewpiry date
-res.cookie("t", token, {expire : new Date() + 9999})
-// return token and user to frontend client
+      //pressist the token as 't' in cookiewith ewpiry date
+      res.cookie("t", token, { expire: new Date() + 9999 });
+      // return token and user to frontend client
 
-const {_id, name,email, role} = user;
-return res.json({token, user: {_id,name,email,role}})
-   }).catch(err=>{
-      if(err) {
-         return res.status(400).json({
-            err : errorHandler(err)
-         })
+      const { _id, name, email, role } = user;
+      return res.json({ token, user: { _id, name, email, role } });
+    })
+    .catch((err) => {
+      if (err) {
+        return res.status(400).json({
+          err: errorHandler(err),
+        });
       }
-   })
-  
-}
+    });
+};
 
 exports.signin = (req, res) => {
+  //find user based on email
+  const { email, password } = req.body;
 
-
-   //find user based on email
-   const {email, password} = req.body;
-
-   console.log(req.body)
-   User.findOne({email}).then((user)=>{
-      if( !user){
-         return res.status(400).json({
-            error : "User with that email doesn't exist ,Please signup"
-         })
+  console.log(req.body);
+  User.findOne({ email })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).json({
+          error: "User with that email doesn't exist ,Please signup",
+        });
       }
 
       //if user is found make sure the email and password match
 
       // create authenticate method in user model
 
-      if(!user.authenticate(password)){
-         return res.status(401).json({
-            error : "Email and password don't match"
-         })
-
+      if (!user.authenticate(password)) {
+        return res.status(401).json({
+          error: "Email and password don't match",
+        });
       }
       // generate a signed token with user id and secret
-      const token  = jwt.sign({_id : user._id}, process.env.JWT_SECRET);
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
       //pressist the token as 't' in cookiewith ewpiry date
-      res.cookie("t", token, {expire : new Date() + 9999})
+      res.cookie("t", token, { expire: new Date() + 9999 });
       // return token and user to frontend client
 
-      const {_id, name,email, role} = user;
-      return res.json({token, user: {_id,name,email,role}})
-
-   })
-   .catch(()=>{
+      const { _id, name, email, role } = user;
+      return res.json({ token, user: { _id, name, email, role } });
+    })
+    .catch(() => {
       return res.status(400).json({
-         error : "User with that email doesn't exist ,Please signup"
-      })
-   })
-  
+        error: "User with that email doesn't exist ,Please signup",
+      });
+    });
+};
 
+exports.uploadImage = (req, res) => {
+   console.log(req.files);
+
+   // All good
+   res.sendStatus(200);
 }
 
 exports.signout = (req, res) => {
-
-   res.clearCookie("t");
-   res.json({message : "Signout success"})
-}
+  res.clearCookie("t");
+  res.json({ message: "Signout success" });
+};
 
 exports.requireSignin = expressJwt({
-   secret: process.env.JWT_SECRET,
-   algorithms: ["HS256"], // added later
-   userProperty: "auth",
- });
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"], // added later
+  userProperty: "auth",
+});
 
- 
+exports.isAuth = (req, res, next) => {
+  let user = req.profile && req.auth && req.profile._id == req.auth._id;
 
-exports.isAuth = (req,res,next)=>{
-   let user = req.profile && req.auth && req.profile._id == req.auth._id;
+  if (!user) {
+    return res.status(403).json({
+      error: "Access denied",
+    });
+  }
+  next();
+};
 
-   if(!user){
-       return res.status(403).json({
-           error :  "Access denied"
-       })
-   }
-   next();
-}
-
-
-exports.isAdmin = (req,res,next)=>{
-
-   if(req.profile.role === 0){
-       return res.status(403).json({
-           error : "Admin resourse! Access denied"
-       })
-   }
-   next();
-}
+exports.isAdmin = (req, res, next) => {
+  if (req.profile.role === 0) {
+    return res.status(403).json({
+      error: "Admin resourse! Access denied",
+    });
+  }
+  next();
+};
