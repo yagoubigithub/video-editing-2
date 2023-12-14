@@ -93,7 +93,7 @@ const Navbar = () => {
         >
            
          <div>
-         {(file.filename && texts.length > 0) &&  <>
+        <>
             
             <Select
                  labelId="fonts"
@@ -192,7 +192,7 @@ const Navbar = () => {
              }
  
             </>
- }
+ 
  
          </div>
          

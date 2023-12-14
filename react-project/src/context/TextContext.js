@@ -182,6 +182,7 @@ export const TextProvider = ({ children }) => {
   };
 
   const setStyle = (style) => {
+    console.log(style)
     let textJson = {};
     if (localStorage.getItem("textJson")) {
       textJson = { ...JSON.parse(localStorage.getItem("textJson")) };
@@ -190,14 +191,16 @@ export const TextProvider = ({ children }) => {
     const _texts = [...texts].map((text) => {
       if (text.id === active) {
         if (textJson[active]) {
-          console.log({
-            ...text,
-            styles: {
-              ...text.styles,
+          const _textJson = {...textJson}
+          _textJson[active] = {
+            ...text.styles,
               ...textJson[text.id],
-              ...style,
-            },
-          });
+              ...style
+          }
+          localStorage.setItem("textJson" , JSON.stringify(
+            _textJson
+            ))
+         
           return {
             ...text,
             styles: {
