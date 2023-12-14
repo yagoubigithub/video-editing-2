@@ -7,6 +7,7 @@ export const TextContext = createContext();
 
 export const TextProvider = ({ children }) => {
   const [file, setFile] = useState({});
+  const [images, setImages] = useState([]);
 
   const [context, setContext] = useState({});
   const [video, setVideo] = useState({});
@@ -53,6 +54,8 @@ export const TextProvider = ({ children }) => {
       const initData = {
         type: "emoji",
         url: emoji.imageUrl,
+        width : emoji.width , 
+        height : emoji.height,
         styles: {
           cursor: "move",
 
@@ -450,6 +453,8 @@ export const TextProvider = ({ children }) => {
         deleteActiveText,
 
         setEmoji,
+        images,
+         setImages
       }}
       displayName="TextContext"
     >

@@ -1,28 +1,32 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 
 import EmojiPicker from 'emoji-picker-react';
 
 
+//mui
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+
 
 //context
 import { TextContext } from "../context/TextContext"
-import { API } from '../Config';
+
 import { isAuthenticated } from '../auth';
 
 
 const Images = ({type}) => {
 
 
-    const { setEmoji   ,setInsertText} = useContext(TextContext)
+    const { setEmoji   ,setInsertText , setImages , images} = useContext(TextContext)
 
     const [progress, setProgress] = React.useState(0);
 
     const {token , user} = isAuthenticated()
  const onEmojiClick = (emoji) =>{ 
 
-    console.log(emoji)
-    setEmoji(emoji)
+    
+    setEmoji({...emoji , width : 64, height : 64})
     setInsertText(true)
  }
 
@@ -55,8 +59,8 @@ const Images = ({type}) => {
 
 const SuccessHandler = (e) => {
    //loaded
- //  const file = JSON.parse(e.target.responseText).vid;
-  // setFile(file)
+   const file = JSON.parse(e.target.responseText).img;
+   setImages([...images , file]);
    setProgress(0)
 };
 const ErrorHandler = () => {
@@ -67,6 +71,41 @@ const AbortHandler = () => {
 
 };
 
+useEffect(()=>{
+
+   if(type === "image"){
+      fetch(`${process.env.REACT_APP_BASE_URL}/users/images/${user._id}`, {
+         method: "GET",
+         headers: {
+             "Content-Type": "application/json",
+             Accept: "application/json",
+             Authorization: `Bearer ${token}`,
+
+             
+         },
+     })
+         .then((response) => response.json())
+         .then((result) => {
+           
+            const  {images} = result;
+             setImages(images)
+             console.log(images)
+             
+         })
+   }
+}, [])
+
+
+
+const handleClickImage = (image) => {
+   setEmoji({
+      ...image,
+      imageUrl : `${process.env.REACT_APP_BASE_URL}/videos/uploads/${image.filename}/${image.type.split("/")[1]}`,
+      width : 140,
+      height : 140
+   })
+   setInsertText(true)
+}
   return (
     <div >
      {type === "emoji"  &&  <EmojiPicker onEmojiClick={onEmojiClick} />}
@@ -74,7 +113,25 @@ const AbortHandler = () => {
 
      {type === "image"  &&  <>
      
-    
+     <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+      {images.map((image) => (
+        <ImageListItem key={image.filename} sx={{
+         border : "1px solid rgba(0,0,0,0.2)",
+         cursor : "pointer"
+        }}
+        onClick={()=>handleClickImage(image)}
+        >
+          <img
+            srcSet={`${process.env.REACT_APP_BASE_URL}/videos/uploads/${image.filename}/${image.type.split("/")[1]}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+            src={`${process.env.REACT_APP_BASE_URL}/videos/uploads/${image.filename}/${image.type.split("/")[1]}?w=164&h=164&fit=crop&auto=format`}
+            alt={image.title}
+            loading="lazy"
+            
+          />
+        </ImageListItem>
+      ))}
+    </ImageList>
+
 <input type="file" name="image"  onChange={onImageChange} multiple={false}/>
 
      </>}

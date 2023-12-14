@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Image = require("../models/Image");
 const { errorHandler } = require("../helpers/dbErrorHandler");
+const Jimp = require("jimp");
 
 const jwt = require("jsonwebtoken"); //to generate sign token
 const expressJwt = require("express-jwt"); // for authorization
@@ -97,29 +98,41 @@ exports.uploadImage = (req, res) => {
 
       fs.writeFile(newPath, rawData, function (err) {
          if (err) console.log(err);
-         fs.unlink(file.filepath, (err) => {
-           if (err) throw err;
- 
-           _files.push(file);
-           const data = {
-             originalFilename :  file.originalFilename,
-             filename : newName,
-             type : file.mimetype,
-             userId : req.params.userId
-           }
-           addImage(data).then(img=>{
-             count--;
-             if (count <= 0) {
-               return res.json({ img });
-              
-              
-             }
+         Jimp.read(newPath, (err, img) => {
+          if (err) throw err;
+          img
+            .resize(140, 140) // resize
+           
+            .write(newPath); // save
+
             
-           }).catch(err=>{
-             console.log(err)
-           })
-          
-         });
+         fs.unlink(file.filepath, (err) => {
+          if (err) throw err;
+
+          _files.push(file);
+          const data = {
+            originalFilename :  file.originalFilename,
+            filename : newName,
+            type : file.mimetype,
+            userId : req.params.userId
+          }
+          addImage(data).then(img=>{
+            count--;
+            if (count <= 0) {
+              return res.json({ img });
+             
+             
+            }
+           
+          }).catch(err=>{
+            console.log(err)
+          })
+         
+        });
+        });
+
+        
+
        });
 
     });
@@ -128,6 +141,13 @@ exports.uploadImage = (req, res) => {
    })
 }
 
+
+exports.getImages = (req, res) => {
+  const userId = req.params.userId;
+  Image.find({userId}).then(images=>{
+    res.status(200).json({images})
+  })
+}
 
 addImage = ( data) => {
    const image = new Image(data);

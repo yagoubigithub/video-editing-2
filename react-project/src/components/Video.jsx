@@ -165,7 +165,7 @@ const Video = () => {
               
                 fabric.Image.fromURL(text.url, function (fabricImage) {
                     //i create an extra var for to change some image properties
-                    var img1 = fabricImage.set({ ...text.styles, width: 64, height: 64 });
+                    var img1 = fabricImage.set({ ...text.styles, width: text.width, height: text.height });
 
                     fabricImage.on('mousedown', function (e) {
                         // e.target should be the circle
