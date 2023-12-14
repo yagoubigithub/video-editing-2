@@ -16,7 +16,9 @@ const Images = ({type}) => {
 
     const { setEmoji   ,setInsertText} = useContext(TextContext)
 
-    const {token} = isAuthenticated()
+    const [progress, setProgress] = React.useState(0);
+
+    const {token , user} = isAuthenticated()
  const onEmojiClick = (emoji) =>{ 
 
     console.log(emoji)
@@ -29,21 +31,41 @@ const Images = ({type}) => {
    const file = e.target.files[0];
    
    
-   const data = new FormData() ;
-   data.append('image', file);
+   const formData = new FormData() ;
+   formData.append('image', file);
+   
 
-   fetch( `${API}/users/upload` , {
-      method : "POST",
-      headers: {
-       
-         "Content-Type": "multipart/form-data",
-         Authorization: `Bearer ${token}`,
-       },
-      body : data
-   }).then((data)=> {
 
-   })
+        var xhr = new XMLHttpRequest();
+        xhr.upload.addEventListener("progress", ProgressHandler, false);
+        xhr.addEventListener("load", SuccessHandler, false);
+        xhr.addEventListener("error", ErrorHandler, false);
+        xhr.addEventListener("abort", AbortHandler, false);
+        xhr.open("POST", process.env.REACT_APP_BASE_URL + "/users/upload/" + user._id);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+
+        xhr.send(formData);
  }
+
+
+ const ProgressHandler = (e) => {
+
+   setProgress((e.loaded / e.total) * 100)
+};
+
+const SuccessHandler = (e) => {
+   //loaded
+ //  const file = JSON.parse(e.target.responseText).vid;
+  // setFile(file)
+   setProgress(0)
+};
+const ErrorHandler = () => {
+   alert("upload failed!!");
+};
+const AbortHandler = () => {
+   alert("upload aborted!!")
+
+};
 
   return (
     <div >

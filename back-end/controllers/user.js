@@ -1,8 +1,15 @@
 const User = require("../models/User");
+const Image = require("../models/Image");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 
 const jwt = require("jsonwebtoken"); //to generate sign token
 const expressJwt = require("express-jwt"); // for authorization
+
+var fs = require("fs");
+var formidable = require("formidable");
+const path = require("path");
+const { v4: uuidv4 } = require("uuid");
+
 
 exports.signup = (req, res) => {
   const user = new User(req.body);
@@ -72,12 +79,61 @@ exports.signin = (req, res) => {
 };
 
 exports.uploadImage = (req, res) => {
-   console.log(req.files);
+   const form = formidable({});
+   form.parse(req, (err, fields, files) => {
+     if (err) {
+       return res.status(500).json({ err });
+     }
 
-   // All good
-   res.sendStatus(200);
+     const _files = [];
+    let count = Object.keys(files).length;
+    Object.keys(files).map((key, index) => {
+      const file = files[key];
+      const extention = path.extname(file.originalFilename);
+      const newName = uuidv4() + extention;
+      let newPath = path.join(__dirname, "..", "uploads", newName);
+      let rawData = fs.readFileSync(file.filepath);
+
+
+      fs.writeFile(newPath, rawData, function (err) {
+         if (err) console.log(err);
+         fs.unlink(file.filepath, (err) => {
+           if (err) throw err;
+ 
+           _files.push(file);
+           const data = {
+             originalFilename :  file.originalFilename,
+             filename : newName,
+             type : file.mimetype,
+             userId : req.params.userId
+           }
+           addImage(data).then(img=>{
+             count--;
+             if (count <= 0) {
+               return res.json({ img });
+              
+              
+             }
+            
+           }).catch(err=>{
+             console.log(err)
+           })
+          
+         });
+       });
+
+    });
+
+
+   })
 }
 
+
+addImage = ( data) => {
+   const image = new Image(data);
+ 
+   return image.save();
+ };
 exports.signout = (req, res) => {
   res.clearCookie("t");
   res.json({ message: "Signout success" });
