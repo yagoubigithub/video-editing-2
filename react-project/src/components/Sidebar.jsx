@@ -19,6 +19,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import TitleIcon from '@mui/icons-material/Title';
 import TheatersIcon from '@mui/icons-material/Theaters';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 //context
 import { TextContext } from "../context/TextContext"
@@ -26,7 +27,7 @@ import { TextContext } from "../context/TextContext"
 
 const Sidebar = () => {
 
-    const { setFile, setInsertText, file } = useContext(TextContext)
+    const { setFile, setInsertText, file , texts } = useContext(TextContext)
 
     const [progress, setProgress] = React.useState(0);
     const [openVideos, setOpenVideos] = React.useState(false);
@@ -138,6 +139,17 @@ const Sidebar = () => {
 
 
                     </MenuItem>
+
+                   
+                     <MenuItem onClick={handleOpenVideos} disabled={texts.length == 0}>
+                     <ListItemIcon>
+                         <FileDownloadIcon fontSize="small" />
+                     </ListItemIcon>
+                     <ListItemText>Save as Temlates</ListItemText>
+
+
+                 </MenuItem>
+                   
 
                 </MenuList>
 
