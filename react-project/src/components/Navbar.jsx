@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 
 
 //mui
@@ -85,6 +85,11 @@ const Navbar = () => {
       const handleClose = () => {
         setAnchorEl(null);
       };
+
+      const uploadAudioRef = useRef(null);
+      const uploadAudio = (ev) => {
+
+      }
     
     return (
         <div
@@ -192,9 +197,10 @@ const Navbar = () => {
                 </div>
 
                 <div className='background-container'  style={{ width : 30  , marginLeft : 30 }}>
-                <IconButton >
+                <IconButton onClick={() => uploadAudioRef.current.click()}>
                     <AudioFileIcon />
                 </IconButton>
+                <input type="file" name="file" hidden ref={uploadAudioRef} onChange={uploadAudio} />
 
                 </div>
              {
