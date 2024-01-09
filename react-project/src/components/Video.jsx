@@ -101,7 +101,8 @@ const Video = () => {
 
 
             setVideo(video)
-            video.addEventListener("canplay", () => videoCanPlay(video, canvas, context, w, h, tempCanvas));
+            video.currentTime = 1;
+            video.addEventListener("loadeddata", () => videoCanPlay(video, canvas, context, w, h, tempCanvas));
 
             tempCanvas.addEventListener("click", (event) => {
                 const insertText = getInsertText()
@@ -265,15 +266,10 @@ const Video = () => {
         setOneSecond(w / video.duration)
         setDuration(video.duration)
 
-        if (fired < 4) {
-            video.currentTime = 1;
-            video.currentTime = 0;
-            context.drawImage(video, 0, 0, w, h);
-            videoContainer.current.append(canvas);
-            videoContainer.current.append(tempCanvas);
-
-
-        }
+        video.currentTime = 0;
+        context.drawImage(video, 0, 0, w, h);
+        videoContainer.current.append(canvas);
+        videoContainer.current.append(tempCanvas);
     }
     const play = () => {
 
