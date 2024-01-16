@@ -22,3 +22,15 @@ exports.create = (req, res) => {
       }
     });
 }
+
+
+exports.getAll = (req, res) => {
+    Template.find({userId : req.params.userId}).then(templates=>
+        {
+            return res.status(200).json({templates})
+
+        })
+   
+    
+  };
+//getAll

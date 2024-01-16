@@ -17,16 +17,19 @@ import TextField from '@mui/material/TextField';
 
 
 
+
 //icons
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import TitleIcon from '@mui/icons-material/Title';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
 
 //context
 import { TextContext } from "../context/TextContext"
 import { saveTemplate } from '../api/template';
 import { isAuthenticated } from '../auth';
+import Templates from './Templates';
 
 
 const Sidebar = () => {
@@ -36,6 +39,7 @@ const Sidebar = () => {
     const [progress, setProgress] = React.useState(0);
     const [openVideos, setOpenVideos] = React.useState(false);
     const [openSaveTemplates, setOpenSaveTemplates] = React.useState(false)
+    const [openTemplates, setOpenTemplates] = React.useState(false)
     const uploadRef = React.useRef();
     const [videos, setVideos] = React.useState([])
 
@@ -119,6 +123,14 @@ const Sidebar = () => {
     const handleCloseeSaveTempelte = () => {
         setOpenSaveTemplates(false)
     }
+
+    const handleOpenTempelte = () => {
+        setOpenTemplates(true)
+    }
+
+    const handleCloseeTempelte = () => {
+        setOpenTemplates(false)
+    }
     return (
         <div id='sidebar'>
 
@@ -159,7 +171,16 @@ const Sidebar = () => {
                         <ListItemIcon>
                             <FileDownloadIcon fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText>Save as Temlates</ListItemText>
+                        <ListItemText>Save as Temlate</ListItemText>
+
+
+                    </MenuItem>
+
+                    <MenuItem onClick={handleOpenTempelte} >
+                        <ListItemIcon>
+                            <InsertLinkIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Temlates</ListItemText>
 
 
                     </MenuItem>
@@ -235,6 +256,38 @@ const Sidebar = () => {
                     <Button type="submit"  variant='contained'>Save</Button>
                 </DialogActions>
             </Dialog>
+
+
+
+
+
+
+
+
+
+
+            <Dialog
+                fullWidth={true}
+                maxWidth={'lg'}
+                open={openTemplates}
+                onClose={handleCloseeTempelte}
+
+            
+            >
+                <DialogTitle>Templates</DialogTitle>
+                <DialogContent>
+
+<Templates />
+               
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseeTempelte}>Close</Button>
+                  
+                </DialogActions>
+            </Dialog>
+
+
 
         </div>
     )
