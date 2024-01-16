@@ -54,9 +54,11 @@ mongoose.connect(process.env.MONGO_URL,{
 const videoRoutes = require("./back-end/routes/videos")
 const mergeRoutes = require("./back-end/routes/merge")
 const userRoute = require("./back-end/routes/user")
+const templateRoute = require("./back-end/routes/template")
 app.use("/api/videos",videoRoutes)
 app.use("/api/merge",mergeRoutes)
 app.use("/api/users",userRoute)
+app.use("/api/templates",templateRoute)
 
 
 app.get("/", function (req, res) {

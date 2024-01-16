@@ -12,6 +12,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+
 
 
 
@@ -23,17 +25,21 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 //context
 import { TextContext } from "../context/TextContext"
+import { saveTemplate } from '../api/template';
+import { isAuthenticated } from '../auth';
 
 
 const Sidebar = () => {
 
-    const { setFile, setInsertText, file , texts } = useContext(TextContext)
+    const { setFile, setInsertText, file, texts } = useContext(TextContext)
 
     const [progress, setProgress] = React.useState(0);
     const [openVideos, setOpenVideos] = React.useState(false);
+    const [openSaveTemplates, setOpenSaveTemplates] = React.useState(false)
     const uploadRef = React.useRef();
     const [videos, setVideos] = React.useState([])
 
+    const { token , user } = isAuthenticated()
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_BASE_URL}/videos`, {
@@ -105,6 +111,14 @@ const Sidebar = () => {
     const handleOpenVideos = () => {
         setOpenVideos(true)
     }
+
+    const handleOpenSaveTempelte = () => {
+        setOpenSaveTemplates(true)
+    }
+
+    const handleCloseeSaveTempelte = () => {
+        setOpenSaveTemplates(false)
+    }
     return (
         <div id='sidebar'>
 
@@ -140,16 +154,16 @@ const Sidebar = () => {
 
                     </MenuItem>
 
-                   
-                     <MenuItem onClick={handleOpenVideos} disabled={texts.length == 0}>
-                     <ListItemIcon>
-                         <FileDownloadIcon fontSize="small" />
-                     </ListItemIcon>
-                     <ListItemText>Save as Temlates</ListItemText>
+
+                    <MenuItem onClick={handleOpenSaveTempelte} disabled={texts.length == 0}>
+                        <ListItemIcon>
+                            <FileDownloadIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Save as Temlates</ListItemText>
 
 
-                 </MenuItem>
-                   
+                    </MenuItem>
+
 
                 </MenuList>
 
@@ -176,6 +190,49 @@ const Sidebar = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseVideos}>Close</Button>
+                </DialogActions>
+            </Dialog>
+
+
+            <Dialog
+                fullWidth={true}
+                maxWidth={'sm'}
+                open={openSaveTemplates}
+                onClose={handleCloseeSaveTempelte}
+
+                PaperProps={{
+                    component: 'form',
+                    onSubmit: (event) => {
+                        event.preventDefault();
+                        const formData = new FormData(event.currentTarget);
+                        const formJson = Object.fromEntries(formData.entries());
+
+                        saveTemplate(texts , formJson , token , user._id , file._id).then(()=>{
+                            handleCloseeSaveTempelte();
+                        });
+                        
+                    },
+                }}
+            >
+                <DialogTitle>Save As Template</DialogTitle>
+                <DialogContent>
+
+                    <TextField
+                        autoFocus
+                        required
+                        margin="dense"
+                        id="name"
+                        name="name"
+                        label="Template Name"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                    />
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseeSaveTempelte}>Close</Button>
+                    <Button type="submit"  variant='contained'>Save</Button>
                 </DialogActions>
             </Dialog>
 
