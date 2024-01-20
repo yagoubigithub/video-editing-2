@@ -45,3 +45,24 @@ export const getTemplates =(  userId , token) =>{
       });
 }
 
+
+
+export const getTemplate =(  templateId) =>{
+    
+  return fetch(`${API}/templates/getone/${templateId}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+
+     
+    })
+      .then((responce) => {
+        return responce.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+}
+

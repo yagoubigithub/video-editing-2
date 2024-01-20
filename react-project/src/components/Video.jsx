@@ -34,7 +34,7 @@ const Video = () => {
 
     useEffect(() => {
 
-        console.log(file)
+        
         async function effect() {
 
 

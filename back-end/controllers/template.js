@@ -34,3 +34,14 @@ exports.getAll = (req, res) => {
     
   };
 //getAll
+
+
+exports.getOne = (req, res) => {
+  Template.findById(req.params.templateId).populate(["videoId", "userId"]).then(template=>
+      {
+          return res.status(200).json({template})
+
+      })
+ 
+  
+};

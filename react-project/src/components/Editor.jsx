@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 import Sidebar from "./Sidebar";
 import { socket } from '../socket';
 
-import { TextProvider } from "../context/TextContext"
+
 import Video from "./Video";
 
 
@@ -55,7 +55,7 @@ function Editor() {
     return (
         <div >
 
-            <TextProvider >
+         
                 <Navbar />
                 <div id="progress" style={{ width: progress + "vw" }}></div>
 
@@ -64,7 +64,7 @@ function Editor() {
                     <Video />
                 </div>
 
-            </TextProvider>
+      
 
 
         </div>

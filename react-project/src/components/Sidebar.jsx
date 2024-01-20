@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 
+import { useHistory } from 'react-router-dom';
 //mui
 import Paper from '@mui/material/Paper';
 import MenuList from '@mui/material/MenuList';
@@ -24,6 +25,7 @@ import TitleIcon from '@mui/icons-material/Title';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import PersonIcon from '@mui/icons-material/Person';
 
 //context
 import { TextContext } from "../context/TextContext"
@@ -34,6 +36,8 @@ import Templates from './Templates';
 
 const Sidebar = () => {
 
+    const history = useHistory();
+
     const { setFile, setInsertText, file, texts } = useContext(TextContext)
 
     const [progress, setProgress] = React.useState(0);
@@ -43,7 +47,7 @@ const Sidebar = () => {
     const uploadRef = React.useRef();
     const [videos, setVideos] = React.useState([])
 
-    const { token , user } = isAuthenticated()
+    const { token, user } = isAuthenticated()
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_BASE_URL}/videos`, {
@@ -138,7 +142,7 @@ const Sidebar = () => {
 
 
                 <MenuList>
-                    <MenuItem onClick={() => uploadRef.current.click()}>
+                    <MenuItem onClick={() => uploadRef.current.click()} disabled={!isAuthenticated()}>
                         <ListItemIcon>
                             <FileUploadIcon fontSize="small" />
                         </ListItemIcon>
@@ -157,7 +161,7 @@ const Sidebar = () => {
 
                     </MenuItem>
 
-                    <MenuItem onClick={handleOpenVideos}>
+                    <MenuItem onClick={handleOpenVideos} disabled={!isAuthenticated()}>
                         <ListItemIcon>
                             <TheatersIcon fontSize="small" />
                         </ListItemIcon>
@@ -167,7 +171,7 @@ const Sidebar = () => {
                     </MenuItem>
 
 
-                    <MenuItem onClick={handleOpenSaveTempelte} disabled={texts.length == 0}>
+                    <MenuItem onClick={handleOpenSaveTempelte} disabled={texts.length == 0 || !isAuthenticated()}  >
                         <ListItemIcon>
                             <FileDownloadIcon fontSize="small" />
                         </ListItemIcon>
@@ -176,7 +180,7 @@ const Sidebar = () => {
 
                     </MenuItem>
 
-                    <MenuItem onClick={handleOpenTempelte} >
+                    <MenuItem onClick={handleOpenTempelte} disabled={!isAuthenticated()}>
                         <ListItemIcon>
                             <InsertLinkIcon fontSize="small" />
                         </ListItemIcon>
@@ -184,6 +188,20 @@ const Sidebar = () => {
 
 
                     </MenuItem>
+
+
+                    {!isAuthenticated() && <MenuItem onClick={() => {
+
+                        history.push("/")
+                    }}  >
+                        <ListItemIcon>
+                            <PersonIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Log in</ListItemText>
+
+
+                    </MenuItem>}
+
 
 
                 </MenuList>
@@ -228,10 +246,10 @@ const Sidebar = () => {
                         const formData = new FormData(event.currentTarget);
                         const formJson = Object.fromEntries(formData.entries());
 
-                        saveTemplate(texts , formJson , token , user._id , file._id).then(()=>{
+                        saveTemplate(texts, formJson, token, user._id, file._id).then(() => {
                             handleCloseeSaveTempelte();
                         });
-                        
+
                     },
                 }}
             >
@@ -253,7 +271,7 @@ const Sidebar = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseeSaveTempelte}>Close</Button>
-                    <Button type="submit"  variant='contained'>Save</Button>
+                    <Button type="submit" variant='contained'>Save</Button>
                 </DialogActions>
             </Dialog>
 
@@ -272,18 +290,18 @@ const Sidebar = () => {
                 open={openTemplates}
                 onClose={handleCloseeTempelte}
 
-            
+
             >
                 <DialogTitle>Templates</DialogTitle>
                 <DialogContent>
 
-<Templates />
-               
+                    <Templates />
+
 
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseeTempelte}>Close</Button>
-                  
+
                 </DialogActions>
             </Dialog>
 
