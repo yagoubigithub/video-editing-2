@@ -26,6 +26,8 @@ import TheatersIcon from '@mui/icons-material/Theaters';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import PersonIcon from '@mui/icons-material/Person';
+import SaveIcon from '@mui/icons-material/Save';
+
 
 //context
 import { TextContext } from "../context/TextContext"
@@ -38,7 +40,7 @@ const Sidebar = () => {
 
     const history = useHistory();
 
-    const { setFile, setInsertText, file, texts } = useContext(TextContext)
+    const { setFile, setInsertText, file, texts ,download } = useContext(TextContext)
 
     const [progress, setProgress] = React.useState(0);
     const [openVideos, setOpenVideos] = React.useState(false);
@@ -156,7 +158,7 @@ const Sidebar = () => {
                         <ListItemIcon>
                             <TitleIcon fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText>ADD Text</ListItemText>
+                        <ListItemText>Add Text</ListItemText>
 
 
                     </MenuItem>
@@ -173,7 +175,7 @@ const Sidebar = () => {
 
                     <MenuItem onClick={handleOpenSaveTempelte} disabled={texts.length == 0 || !isAuthenticated()}  >
                         <ListItemIcon>
-                            <FileDownloadIcon fontSize="small" />
+                            <SaveIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>Save as Temlate</ListItemText>
 
@@ -204,6 +206,15 @@ const Sidebar = () => {
 
 
 
+
+     <MenuItem  onClick={download}  disabled={texts.length == 0 }>
+                        <ListItemIcon>
+                            <FileDownloadIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Download</ListItemText>
+
+
+                    </MenuItem>
                 </MenuList>
 
 

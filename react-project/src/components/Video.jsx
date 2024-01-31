@@ -3,12 +3,13 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import moment from 'moment';
 import { fabric } from "fabric";
 
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+
 
 
 //icons
 import PlayIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 //context
 import { TextContext } from "../context/TextContext"
@@ -434,7 +435,7 @@ const Video = () => {
                     {
                         texts.map((text, index) => {
                             return (
-                                <div className="timing" id={`timing-${text.id}`} style={{
+                                <div className="timing" id={`timing-${text.id}`} key={`timing-${text.id}`} style={{
                                     width: one_second * (text.to - text.from),
                                     left: one_second * text.from,
                                     top: index * 54
